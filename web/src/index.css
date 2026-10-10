@@ -1,0 +1,113 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-paper: #fcfbf7;
+  --color-ink: #15171c;
+  --color-ink-2: #4b5263;
+  --color-ink-3: #8a90a0;
+  --color-line: #e6e2d8;
+  --color-line-2: #d6d1c4;
+
+  --color-gold-50: #fff9e6;
+  --color-gold-100: #fff0bf;
+  --color-gold-200: #ffe38a;
+  --color-gold-300: #ffd24d;
+  --color-gold-400: #f7b500;
+  --color-gold-500: #e0a100;
+  --color-gold-600: #b98200;
+  --color-gold-700: #8f6400;
+
+  --color-sky-50: #ecf7fe;
+  --color-sky-100: #d5eefd;
+  --color-sky-200: #ade0fb;
+  --color-sky-300: #79ccf7;
+  --color-sky-400: #3db4f0;
+  --color-sky-500: #0e9be0;
+  --color-sky-600: #0a7fbd;
+  --color-sky-700: #08679a;
+
+  --color-ember-50: #fdf1ea;
+  --color-ember-400: #e8834f;
+  --color-ember-500: #d9672e;
+  --color-ember-700: #a3461a;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-paper text-ink font-sans;
+  }
+  ::selection {
+    @apply bg-gold-200 text-ink;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-sky-500;
+  }
+}
+
+@utility eyebrow {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sky-700;
+  }
+
+@utility card {
+    @apply border border-line bg-white;
+  }
+
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+@utility btn-primary {
+    @apply btn bg-ink text-white hover:bg-ink-2;
+  }
+
+@utility btn-gold {
+    @apply btn bg-gold-400 text-ink hover:bg-gold-300;
+  }
+
+@utility btn-sky {
+    @apply btn bg-sky-500 text-white hover:bg-sky-600;
+  }
+
+@utility btn-ghost {
+    @apply btn border border-line-2 bg-white text-ink hover:border-ink;
+  }
+
+@utility chip {
+    @apply inline-flex items-center gap-1.5 border border-line bg-white px-2.5 py-1 text-xs text-ink-2;
+  }
+
+@utility field {
+    @apply w-full border border-line-2 bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-sky-500 focus:outline-none;
+  }
+
+@utility label {
+    @apply mb-1.5 block text-xs font-medium text-ink-2;
+  }
+
+@utility link {
+    @apply text-sky-700 underline decoration-sky-300 underline-offset-2 hover:decoration-sky-700;
+  }
+
+.bg-grid {
+  background-image: linear-gradient(var(--color-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.maplibregl-popup-content {
+  border-radius: 0;
+  border: 1px solid var(--color-line);
+  box-shadow: 0 8px 24px rgb(21 23 28 / 0.12);
+  padding: 12px 14px;
+  font-family: var(--font-sans);
+}
