@@ -40,6 +40,7 @@ function AddDeviceForm() {
   const [model, setModel] = useState('')
   const [guideId, setGuideId] = useState<string>(presetGuide ?? '')
 
+  // A guide the user picked wins; otherwise it follows the current type, brand and detected OS.
   const suggestedGuide = guideFor(kind, brand, result?.os)
   const effectiveGuide = dataKinds.includes(kind) ? guideId || suggestedGuide : null
 
@@ -58,7 +59,7 @@ function AddDeviceForm() {
       setKind(id.kind)
       setBrand(id.brand ?? '')
       setModel(id.model ?? '')
-      setGuideId(id.guideId ?? '')
+      setGuideId('')
     } catch (err) {
       setScanError(errorText(err))
     } finally {

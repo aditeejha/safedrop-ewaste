@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ComponentType } from 'react'
 import { createBrowserRouter } from 'react-router'
 import { Layout } from './components/Layout'
+import { RouteError } from './components/RouteError'
 import { Spinner } from './components/ui'
 import Home from './pages/Home'
 
@@ -16,6 +17,7 @@ function page(load: () => Promise<{ default: ComponentType }>) {
 export const router = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <RouteError />,
     children: [
       { path: '/', element: <Home /> },
       { path: '/wipe', element: page(() => import('./pages/Guides')) },

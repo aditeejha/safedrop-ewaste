@@ -13,3 +13,4 @@ docs/build/
 infra/outputs.json
 design/source-images/
 web/site.zip
+web/.assets-archive/

@@ -1,6 +1,6 @@
 // Builds everything and deploys the CDK stack to the hackathon AWS account only.
 import { execSync } from 'node:child_process'
-import { readFileSync, writeFileSync } from 'node:fs'
+import { cpSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { setTimeout as wait } from 'node:timers/promises'
 
 const profile = 'aditee'
@@ -57,6 +57,10 @@ writeFileSync('web/public/config.json', JSON.stringify(webConfig, null, 2))
 
 if (!process.argv.includes('--skip-web')) {
   writeFileSync('web/dist/config.json', JSON.stringify({ ...webConfig, apiBase: `${outputs.ApiUrl}/api` }, null, 2))
+  // Ship earlier builds' hashed chunks too, so tabs opened before this deploy can still load them.
+  mkdirSync('web/.assets-archive', { recursive: true })
+  cpSync('web/.assets-archive', 'web/dist/assets', { recursive: true, force: false })
+  cpSync('web/dist/assets', 'web/.assets-archive', { recursive: true })
   execSync(
     `python -I -c "import shutil,sys; shutil.make_archive(sys.argv[1], 'zip', sys.argv[2])" web/site web/dist`,
     { stdio: 'inherit' },

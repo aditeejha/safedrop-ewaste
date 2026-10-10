@@ -7,6 +7,16 @@ import { ErrorNote } from './ui'
 
 const engineLabel = { bedrock: 'Amazon Bedrock', gemini: 'Gemini', search: 'Guide search' }
 
+function Formatted({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+        part.startsWith('**') && part.endsWith('**') ? <strong key={i}>{part.slice(2, -2)}</strong> : part.replace(/^\s*[*-]\s+/gm, '• '),
+      )}
+    </>
+  )
+}
+
 export function AskBox({ guideId, suggestions = [] }: { guideId?: string; suggestions?: string[] }) {
   const [question, setQuestion] = useState('')
   const ask = useMutation({
@@ -60,7 +70,9 @@ export function AskBox({ guideId, suggestions = [] }: { guideId?: string; sugges
       )}
       {ask.data && (
         <div className="mt-4 border-t border-line pt-4">
-          <p className="whitespace-pre-line text-sm leading-relaxed text-ink">{ask.data.answer}</p>
+          <p className="whitespace-pre-line text-sm leading-relaxed text-ink">
+            <Formatted text={ask.data.answer} />
+          </p>
           {ask.data.sources.length > 0 && (
             <ul className="mt-3 space-y-1">
               {ask.data.sources.map((s, i) => (

@@ -5,6 +5,7 @@ import { criticalStepIds, findGuide, guides } from '../src/lib/guides.js'
 import { co2eAvoidedKg, energySavedKwh, itemImpact, ledHours, metalsRecoverableGrams, sumImpact, typicalKg } from '../src/lib/impact.js'
 import { guideFor, holdsData } from '../src/lib/kinds.js'
 import { shortName } from '../src/routes/public.js'
+import { withCitations } from '../src/lib/assistant.js'
 
 test('handover codes avoid ambiguous characters and validate', () => {
   for (let i = 0; i < 200; i++) {
@@ -78,4 +79,11 @@ test('certificate names are shortened for privacy', () => {
   assert.equal(shortName('Aditee Jha'), 'Aditee J.')
   assert.equal(shortName('Ramesh'), 'Ramesh')
   assert.equal(shortName('(Demo)'), 'A SafeDrop user')
+})
+
+test('helper citations are renumbered to match the returned sources', () => {
+  const sources = Array.from({ length: 30 }, (v, i) => ({ title: `S${i + 1}`, publisher: 'P', url: `https://x/${i + 1}` }))
+  const result = withCitations('Remove the account [27]. Then reset [28][27]. Ignore [99].', sources)
+  assert.equal(result.answer, 'Remove the account [1]. Then reset [2][1]. Ignore .')
+  assert.deepEqual(result.sources.map((s) => s.title), ['S27', 'S28'])
 })

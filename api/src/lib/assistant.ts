@@ -32,10 +32,21 @@ function contextFor(guideList: Guide[]) {
   return { text: `${blocks.join('\n\n')}\n\nSources:\n${sourceList}`, sources }
 }
 
-function citedSources(answer: string, sources: Source[]) {
-  const cited = new Set([...answer.matchAll(/\[(\d+)\]/g)].map((m) => Number(m[1]) - 1))
-  return [...cited].filter((i) => sources[i]).map((i) => sources[i])
+// The model cites sources by their number in the full context; renumber them 1..n in citation order.
+function withCitations(answer: string, sources: Source[]) {
+  const order: number[] = []
+  for (const match of answer.matchAll(/\[(\d+)\]/g)) {
+    const index = Number(match[1]) - 1
+    if (sources[index] && !order.includes(index)) order.push(index)
+  }
+  const text = answer.replace(/\[(\d+)\]/g, (whole, n) => {
+    const position = order.indexOf(Number(n) - 1)
+    return position === -1 ? '' : `[${position + 1}]`
+  })
+  return { answer: text.trim(), sources: order.map((i) => sources[i]) }
 }
+
+export { withCitations }
 
 export async function askHelper(question: string, guideId?: string): Promise<Answer> {
   const focused = findGuide(guideId)
@@ -47,13 +58,13 @@ export async function askHelper(question: string, guideId?: string): Promise<Ans
   if (bedrockReady()) {
     try {
       const answer = await bedrockConverse([{ text: userText }], system)
-      return { answer, sources: citedSources(answer, context.sources), engine: 'bedrock' }
+      return { ...withCitations(answer, context.sources), engine: 'bedrock' }
     } catch {}
   }
   if (geminiReady()) {
     try {
       const answer = await geminiGenerate([{ text: userText }], { system })
-      return { answer, sources: citedSources(answer, context.sources), engine: 'gemini' }
+      return { ...withCitations(answer, context.sources), engine: 'gemini' }
     } catch (err) {
       console.warn('gemini helper failed', (err as Error).message)
     }
