@@ -1,0 +1,1559 @@
+{
+  "generatedAt": "2026-10-11",
+  "guides": [
+    {
+      "id": "android",
+      "title": "Android phone or tablet (Android 12 and newer)",
+      "appliesTo": [
+        "phone",
+        "tablet"
+      ],
+      "minutes": 75,
+      "sections": [
+        {
+          "id": "backup",
+          "title": "Back up what you want to keep",
+          "steps": [
+            {
+              "id": "google-backup",
+              "text": "Open Settings > Google > All services > Backup, then tap Back up now.",
+              "detail": "This saves apps and app data, call history, contacts, settings and SMS to your Google Account. Photos and videos are backed up by the Google Photos app.",
+              "critical": false
+            },
+            {
+              "id": "backup-wait",
+              "text": "Wait for the backup to finish before you go further.",
+              "detail": "Google says a backup can take up to 24 hours to finish. You get 15 GB of storage at no charge.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Back up or restore data on your Android device",
+              "publisher": "Google",
+              "url": "https://support.google.com/android/answer/2819582",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "whatsapp",
+          "title": "Save your WhatsApp chats",
+          "steps": [
+            {
+              "id": "wa-backup",
+              "text": "In WhatsApp, tap the three dots > Settings > Chats > Chat backup > Back up.",
+              "detail": "Your chats are saved to your Google Account. You need a Google Account on the phone, Google Play services, enough free space, and a steady internet connection. Use Wi-Fi to avoid mobile data charges.",
+              "critical": false
+            },
+            {
+              "id": "wa-e2e",
+              "text": "Optional: turn on End-to-end encrypted backup in the same Chat backup screen.",
+              "detail": "Choose a passkey, a password or a 64-digit key. WhatsApp says it is the only way to open your backup later, so write it down somewhere safe.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "How to back up your chat history (Android)",
+              "publisher": "WhatsApp",
+              "url": "https://faq.whatsapp.com/481135090640375",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "prepare",
+          "title": "Get ready before the reset",
+          "steps": [
+            {
+              "id": "know-account",
+              "text": "Note your Google Account email and make sure you know its password.",
+              "detail": "Check it by signing in on another phone or computer. Google asks for this information after a reset.",
+              "critical": true
+            },
+            {
+              "id": "know-lock",
+              "text": "Keep your phone's PIN, pattern or password handy.",
+              "critical": true
+            },
+            {
+              "id": "wait-24h",
+              "text": "Changed your Google password recently? Wait 24 hours before resetting.",
+              "detail": "Google's advice for anyone who reset their Google Account password in the last 24 hours.",
+              "critical": false
+            },
+            {
+              "id": "charge",
+              "text": "Charge the phone to at least 70% and connect to Wi-Fi or mobile data.",
+              "detail": "Google says a reset can take up to an hour.",
+              "critical": false
+            },
+            {
+              "id": "encryption",
+              "text": "Nothing to switch on for encryption.",
+              "detail": "Google's Android security documentation says full-disk encryption is not allowed on new devices running Android 10 and higher; they use file-based encryption instead. The factory reset then removes your data.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Reset your Android device to factory settings",
+              "publisher": "Google",
+              "url": "https://support.google.com/android/answer/6088915",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Encryption (Android Open Source Project)",
+              "publisher": "Google",
+              "url": "https://source.android.com/docs/security/features/encryption",
+              "updated": "2026-09-30"
+            }
+          ]
+        },
+        {
+          "id": "remove-account",
+          "title": "Remove your Google Account (turns off Factory Reset Protection)",
+          "steps": [
+            {
+              "id": "remove-google",
+              "text": "Open Settings > Passwords & accounts (or Accounts), tap your Google Account, tap Remove account and confirm.",
+              "detail": "On some phones the menu is called Users & accounts or Manage accounts. You will need your PIN, pattern or password.",
+              "critical": true
+            },
+            {
+              "id": "why-remove",
+              "text": "Do this before the reset, not after.",
+              "detail": "Google says removing your Google Account turns off device protection. If you skip it, the phone asks for your account after the reset and nobody else can use it.",
+              "critical": true
+            },
+            {
+              "id": "remove-others",
+              "text": "Remove any other accounts listed there (email, work and so on) the same way.",
+              "detail": "Removing an account also deletes its email, contacts and settings from the phone.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Add or remove an account on Android",
+              "publisher": "Google",
+              "url": "https://support.google.com/android/answer/7664951",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Help prevent others from using your device without permission (Pixel Phone Help)",
+              "publisher": "Google",
+              "url": "https://support.google.com/pixelphone/answer/6172890",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "sim-card",
+          "title": "Take out your SIM, eSIM and memory card",
+          "steps": [
+            {
+              "id": "esim",
+              "text": "Erase your eSIM: open Settings > Network & internet > Mobile network (or SIMs), pick the eSIM, tap Erase eSIM.",
+              "detail": "Menu names vary by brand. If you can't find it, ask your mobile operator to move or deactivate the eSIM. Some steps need Android 11 or later.",
+              "critical": true
+            },
+            {
+              "id": "sim",
+              "text": "Switch the phone off and take your SIM card out of the tray.",
+              "detail": "Google's trade-in steps say to remove the SIM card but leave the empty tray in the phone.",
+              "critical": true
+            },
+            {
+              "id": "microsd",
+              "text": "Take out the microSD memory card, if there is one.",
+              "detail": "Google warns that erasing a phone may not delete SD cards. Keep the card, or wipe it using the Loose drives guide.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "How to use dual SIMs on your Google Pixel phone",
+              "publisher": "Google",
+              "url": "https://support.google.com/pixelphone/answer/9449293",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Send your trade-in device (Google Store Help)",
+              "publisher": "Google",
+              "url": "https://support.google.com/store/answer/14282767",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Find, secure, or erase a lost Android device",
+              "publisher": "Google",
+              "url": "https://support.google.com/accounts/answer/6160491",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "reset",
+          "title": "Factory reset the phone",
+          "steps": [
+            {
+              "id": "factory-reset",
+              "text": "Open Settings > System > Reset options > Erase all data (factory reset), then tap Erase all data.",
+              "detail": "This is the path on Google Pixel phones; other brands use similar menu names. Enter your PIN if asked.",
+              "critical": true
+            },
+            {
+              "id": "buttons-fallback",
+              "text": "If Settings won't open, use the power and volume buttons method from your phone maker's support site.",
+              "detail": "Google says most phones are reset from Settings; the button method varies by manufacturer.",
+              "critical": false
+            },
+            {
+              "id": "check-reset",
+              "text": "When the phone restarts, check that it does not ask for your password or Google Account.",
+              "detail": "Google says that if it still asks, the reset is not complete and you must do it again.",
+              "critical": true
+            },
+            {
+              "id": "power-off",
+              "text": "Switch the phone off. It is ready to hand over.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Reset your Android device to factory settings",
+              "publisher": "Google",
+              "url": "https://support.google.com/android/answer/6088915",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Send your trade-in device (Google Store Help)",
+              "publisher": "Google",
+              "url": "https://support.google.com/store/answer/14282767",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "online",
+          "title": "Remove the phone from your Google Account online",
+          "steps": [
+            {
+              "id": "g-devices",
+              "text": "Go to myaccount.google.com > Security & sign-in > Manage all devices, tap the old phone and tap Sign out.",
+              "detail": "Do this from any phone or computer. Google advises signing out on devices that are no longer yours. If several entries share the same name, sign out of all of them.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "See devices with account access",
+              "publisher": "Google",
+              "url": "https://support.google.com/accounts/answer/3067630",
+              "updated": "not shown on page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "samsung",
+      "title": "Samsung Galaxy phone or tablet",
+      "appliesTo": [
+        "phone",
+        "tablet"
+      ],
+      "minutes": 75,
+      "sections": [
+        {
+          "id": "backup",
+          "title": "Back up what you want to keep",
+          "steps": [
+            {
+              "id": "smart-switch",
+              "text": "Install Smart Switch on your computer, connect the phone with a USB data cable and select Backup.",
+              "detail": "Tap Allow on the phone if asked and tap OK when it finishes. To pick what is saved, go to MORE > Preferences > Backup items.",
+              "critical": false
+            },
+            {
+              "id": "smart-switch-limits",
+              "text": "Back up WhatsApp separately (next section).",
+              "detail": "Samsung says Smart Switch does not back up secure or encrypted app data such as WhatsApp chats, and some banking app logins won't transfer.",
+              "critical": false
+            },
+            {
+              "id": "google-backup",
+              "text": "You can also back up to Google: Settings > Google > All services > Backup > Back up now.",
+              "detail": "This saves contacts, call history, SMS, settings and apps to your Google Account.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "How to backup your Samsung phone to PC or Mac",
+              "publisher": "Samsung UK",
+              "url": "https://www.samsung.com/uk/support/mobile-devices/how-do-i-backup-my-smartphone-to-my-pc-or-mac/",
+              "updated": "2026-06-19"
+            },
+            {
+              "title": "Back up or restore data on your Android device",
+              "publisher": "Google",
+              "url": "https://support.google.com/android/answer/2819582",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "whatsapp",
+          "title": "Save your WhatsApp chats",
+          "steps": [
+            {
+              "id": "s-wa-backup",
+              "text": "In WhatsApp, tap the three dots > Settings > Chats > Chat backup > Back up.",
+              "detail": "Your chats are saved to your Google Account. You need a Google Account on the phone, Google Play services, enough free space, and a steady internet connection. Use Wi-Fi to avoid mobile data charges.",
+              "critical": false
+            },
+            {
+              "id": "s-wa-e2e",
+              "text": "Optional: turn on End-to-end encrypted backup in the same Chat backup screen.",
+              "detail": "Choose a passkey, a password or a 64-digit key. WhatsApp says it is the only way to open your backup later, so write it down somewhere safe.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "How to back up your chat history (Android)",
+              "publisher": "WhatsApp",
+              "url": "https://faq.whatsapp.com/481135090640375",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "prepare",
+          "title": "Get ready before the reset",
+          "steps": [
+            {
+              "id": "s-know-account",
+              "text": "Note your Google Account email and make sure you know its password.",
+              "detail": "Check it by signing in on another phone or computer. Google asks for this information after a reset.",
+              "critical": true
+            },
+            {
+              "id": "s-know-lock",
+              "text": "Keep your phone's PIN, pattern or password handy.",
+              "critical": true
+            },
+            {
+              "id": "s-wait-24h",
+              "text": "Changed your Google password recently? Wait 24 hours before resetting.",
+              "detail": "Google's advice for anyone who reset their Google Account password in the last 24 hours.",
+              "critical": false
+            },
+            {
+              "id": "s-charge",
+              "text": "Charge the phone to at least 70% and connect to Wi-Fi or mobile data.",
+              "detail": "Google says a reset can take up to an hour.",
+              "critical": false
+            },
+            {
+              "id": "s-encryption",
+              "text": "Nothing to switch on for encryption.",
+              "detail": "Google's Android security documentation says full-disk encryption is not allowed on new devices running Android 10 and higher; they use file-based encryption instead. The factory reset then removes your data.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Reset your Android device to factory settings",
+              "publisher": "Google",
+              "url": "https://support.google.com/android/answer/6088915",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Encryption (Android Open Source Project)",
+              "publisher": "Google",
+              "url": "https://source.android.com/docs/security/features/encryption",
+              "updated": "2026-09-30"
+            }
+          ]
+        },
+        {
+          "id": "remove-accounts",
+          "title": "Remove your Samsung and Google accounts",
+          "steps": [
+            {
+              "id": "remove-samsung",
+              "text": "Open Settings > Accounts and backup > Manage accounts > Samsung account > Remove account. Confirm, tap Sign out and enter your Samsung password.",
+              "detail": "Samsung says the reset itself needs this password if the Samsung account is still signed in.",
+              "critical": true
+            },
+            {
+              "id": "remove-google",
+              "text": "In the same Manage accounts list, tap your Google Account > Remove account and confirm.",
+              "detail": "This turns off Google's Factory Reset Protection so the next owner can set up the phone.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Remove accounts from your Galaxy phone or tablet",
+              "publisher": "Samsung India",
+              "url": "https://www.samsung.com/in/support/mobile-devices/remove-accounts-from-your-galaxy-phone-or-tablet/",
+              "updated": "2024-09-27"
+            },
+            {
+              "title": "How to perform a factory reset on your Samsung Galaxy device",
+              "publisher": "Samsung India",
+              "url": "https://www.samsung.com/in/support/mobile-devices/perform-a-factory-reset-on-samsung-galaxy-device/",
+              "updated": "2026-09-03"
+            },
+            {
+              "title": "Help prevent others from using your device without permission (Pixel Phone Help)",
+              "publisher": "Google",
+              "url": "https://support.google.com/pixelphone/answer/6172890",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "sim-card",
+          "title": "Take out your SIM, eSIM and memory card",
+          "steps": [
+            {
+              "id": "s-esim",
+              "text": "Erase your eSIM from the phone's SIM settings before the reset.",
+              "detail": "Google's trade-in checklist says to erase any downloaded SIMs. Menu names vary by model; if you can't find the option, ask your mobile operator to deactivate the eSIM.",
+              "critical": true
+            },
+            {
+              "id": "s-sim",
+              "text": "Switch the phone off and take your SIM card out of the tray.",
+              "detail": "Google's trade-in steps say to remove the SIM card but leave the empty tray in the phone.",
+              "critical": true
+            },
+            {
+              "id": "s-microsd",
+              "text": "Take out the microSD memory card, if there is one.",
+              "detail": "Google warns that erasing a phone may not delete SD cards. Keep the card, or wipe it using the Loose drives guide.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Send your trade-in device (Google Store Help)",
+              "publisher": "Google",
+              "url": "https://support.google.com/store/answer/14282767",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Find, secure, or erase a lost Android device",
+              "publisher": "Google",
+              "url": "https://support.google.com/accounts/answer/6160491",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "reset",
+          "title": "Factory reset (One UI)",
+          "steps": [
+            {
+              "id": "factory-reset",
+              "text": "Open Settings > General management > Reset > Factory data reset > Reset > Delete all.",
+              "detail": "Enter your Samsung account password if asked. Menu names can differ slightly by model and software version.",
+              "critical": true
+            },
+            {
+              "id": "use-settings",
+              "text": "Always reset from Settings, not with the hardware buttons.",
+              "detail": "Samsung says Factory Reset Protection is triggered when a reset is done any way other than Settings > Factory data reset.",
+              "critical": true
+            },
+            {
+              "id": "check-reset",
+              "text": "After the restart, check that the phone does not ask for your Google or Samsung account.",
+              "detail": "If it does, the reset is not complete; do it again.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "How to perform a factory reset on your Samsung Galaxy device",
+              "publisher": "Samsung India",
+              "url": "https://www.samsung.com/in/support/mobile-devices/perform-a-factory-reset-on-samsung-galaxy-device/",
+              "updated": "2026-09-03"
+            },
+            {
+              "title": "Send your trade-in device (Google Store Help)",
+              "publisher": "Google",
+              "url": "https://support.google.com/store/answer/14282767",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "online",
+          "title": "Remove the phone from your Google Account online",
+          "steps": [
+            {
+              "id": "s-g-devices",
+              "text": "Go to myaccount.google.com > Security & sign-in > Manage all devices, tap the old phone and tap Sign out.",
+              "detail": "Do this from any phone or computer. Google advises signing out on devices that are no longer yours. If several entries share the same name, sign out of all of them.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "See devices with account access",
+              "publisher": "Google",
+              "url": "https://support.google.com/accounts/answer/3067630",
+              "updated": "not shown on page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iphone",
+      "title": "iPhone or iPad",
+      "appliesTo": [
+        "phone",
+        "tablet"
+      ],
+      "minutes": 60,
+      "sections": [
+        {
+          "id": "backup",
+          "title": "Back up what you want to keep",
+          "steps": [
+            {
+              "id": "ios-backup",
+              "text": "Back up your iPhone or iPad to iCloud or to a computer.",
+              "detail": "Apple says to back up first and again just before you erase. If you have a new iPhone, Quick Start can move your data directly.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "What to do before you sell, give away, or trade in your iPhone or iPad",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/109511",
+              "updated": "2026-05-29"
+            }
+          ]
+        },
+        {
+          "id": "whatsapp",
+          "title": "Save your WhatsApp chats",
+          "steps": [
+            {
+              "id": "wa-icloud",
+              "text": "In WhatsApp, tap your profile picture > Chats > Chat Backup > Back Up Now.",
+              "detail": "Chats go to your iCloud. You need the same phone number and iCloud account to restore, and free space of at least 2.05 times the backup size in iCloud and on the phone.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "How to back up to iCloud",
+              "publisher": "WhatsApp",
+              "url": "https://faq.whatsapp.com/180225246548988",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "watch",
+          "title": "Unpair your Apple Watch",
+          "steps": [
+            {
+              "id": "unpair-watch",
+              "text": "On the iPhone, open the Watch app > My Watch > All Watches, tap the info button next to your watch, then tap Unpair Apple Watch.",
+              "detail": "Enter your Apple Account password when asked; this turns off Activation Lock on the watch. For cellular watches, choose whether to keep or remove the plan.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Unpair and erase your Apple Watch",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/108372",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "What to do before you sell, give away, or trade in your iPhone or iPad",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/109511",
+              "updated": "2026-05-29"
+            }
+          ]
+        },
+        {
+          "id": "sign-out",
+          "title": "Sign out of your Apple Account (turns off Find My and Activation Lock)",
+          "steps": [
+            {
+              "id": "apple-sign-out",
+              "text": "Open Settings, tap your name, scroll down and tap Sign Out.",
+              "detail": "On iOS 26, choose the iCloud and Store option if asked. On iOS 18 or earlier, enter your Apple Account password and tap Turn Off.",
+              "critical": true
+            },
+            {
+              "id": "imessage",
+              "text": "Moving to an Android phone? Deregister iMessage too.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "What to do before you sell, give away, or trade in your iPhone or iPad",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/109511",
+              "updated": "2026-05-29"
+            }
+          ]
+        },
+        {
+          "id": "erase",
+          "title": "Erase the iPhone or iPad",
+          "steps": [
+            {
+              "id": "eacs",
+              "text": "Open Settings > General > Transfer or Reset > Erase All Content and Settings.",
+              "detail": "Enter your passcode if asked and confirm. Apple says erasing also turns off Find My and Activation Lock; you may need your Apple Account password.",
+              "critical": true
+            },
+            {
+              "id": "esim",
+              "text": "If you use an eSIM, choose to erase the device and the eSIM profile when asked.",
+              "detail": "If your device doesn't use a SIM card, contact your mobile operator to move the service.",
+              "critical": true
+            },
+            {
+              "id": "sim",
+              "text": "Take out the physical SIM card, if there is one.",
+              "detail": "General advice, not an Apple step: the SIM carries your phone number.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "What to do before you sell, give away, or trade in your iPhone or iPad",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/109511",
+              "updated": "2026-05-29"
+            }
+          ]
+        },
+        {
+          "id": "device-list",
+          "title": "Remove it from your Apple Account device list",
+          "steps": [
+            {
+              "id": "remove-device",
+              "text": "On another Apple device, go to Settings > your name, tap the old device and tap Remove from Account. Or use account.apple.com > Devices.",
+              "detail": "Removed devices lose access to iCloud and Find My and stop showing two-factor codes.",
+              "critical": false
+            },
+            {
+              "id": "find-my-remove",
+              "text": "Already handed it over without erasing? Go to icloud.com/find, select the device and tap Remove This Device.",
+              "detail": "Apple says to erase first, then remove. Also change your Apple Account password.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Review devices signed in to your Apple Account",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/102649",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Remove a device from Find Devices on iCloud.com",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/guide/icloud/remove-a-device-mmfc0eeddd/icloud",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "What to do before you sell, give away, or trade in your iPhone or iPad",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/109511",
+              "updated": "2026-05-29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "windows",
+      "title": "Windows laptop or desktop",
+      "appliesTo": [
+        "laptop",
+        "desktop"
+      ],
+      "minutes": 150,
+      "sections": [
+        {
+          "id": "backup",
+          "title": "Back up what you want to keep",
+          "steps": [
+            {
+              "id": "windows-backup",
+              "text": "Use Windows Backup to save the files and settings you want to keep.",
+              "detail": "Microsoft recommends this before you recycle, sell or gift a PC.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Before you recycle, sell, or gift your Xbox or Windows PC",
+              "publisher": "Microsoft",
+              "url": "https://support.microsoft.com/en-us/accounts-billing/security/before-you-recycle-sell-or-gift-your-xbox-or-windows-pc",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "encryption",
+          "title": "Check encryption and your BitLocker key",
+          "steps": [
+            {
+              "id": "check-encryption",
+              "text": "Open Settings > Privacy & security > Device encryption to see if encryption is on.",
+              "detail": "Device encryption is available even on Windows Home. When you set up the PC with a Microsoft account, the recovery key is attached to that account.",
+              "critical": false
+            },
+            {
+              "id": "bitlocker-key",
+              "text": "If the PC is encrypted, make sure you have your BitLocker recovery key before resetting.",
+              "detail": "Microsoft says you need it to complete a reset started from the recovery screen.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Device Encryption in Windows",
+              "publisher": "Microsoft",
+              "url": "https://support.microsoft.com/en-us/windows/device-encryption-in-windows-cf7e2b6f-3e70-4882-9532-18633605b7df",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Reset your PC",
+              "publisher": "Microsoft",
+              "url": "https://support.microsoft.com/en-us/windows/reset-your-pc-0ef73740-b927-549b-b7c9-e6f2b48d275e",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "reset",
+          "title": "Reset with Remove everything and Clean data",
+          "steps": [
+            {
+              "id": "reset-pc",
+              "text": "Open Settings > System > Recovery and select Reset PC.",
+              "critical": true
+            },
+            {
+              "id": "remove-everything",
+              "text": "Choose Remove everything.",
+              "detail": "This removes all personal files, apps and settings and reinstalls Windows.",
+              "critical": true
+            },
+            {
+              "id": "clean-data",
+              "text": "Choose Clean data, then follow the on-screen steps.",
+              "detail": "Microsoft says to use this if you plan to donate, recycle or sell the PC. It takes longer but makes removed files harder to recover.",
+              "critical": true
+            },
+            {
+              "id": "clean-data-limit",
+              "text": "For very sensitive data, also follow the Loose drives guide.",
+              "detail": "Microsoft notes this erasure is aimed at consumers and does not meet government and industry data-erasure standards.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Reset your PC",
+              "publisher": "Microsoft",
+              "url": "https://support.microsoft.com/en-us/windows/reset-your-pc-0ef73740-b927-549b-b7c9-e6f2b48d275e",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Before you recycle, sell, or gift your Xbox or Windows PC",
+              "publisher": "Microsoft",
+              "url": "https://support.microsoft.com/en-us/accounts-billing/security/before-you-recycle-sell-or-gift-your-xbox-or-windows-pc",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "account",
+          "title": "Remove the PC from your Microsoft account",
+          "steps": [
+            {
+              "id": "remove-device",
+              "text": "Go to account.microsoft.com/devices, select Show details for the PC, then More actions > Remove. Tick \"I'm ready to remove this device\" and select Remove.",
+              "detail": "Do this after the reset.",
+              "critical": false
+            },
+            {
+              "id": "unlink",
+              "text": "On the same page, select Unlink for the PC.",
+              "detail": "This frees a slot in your Microsoft Store device limit.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Before you recycle, sell, or gift your Xbox or Windows PC",
+              "publisher": "Microsoft",
+              "url": "https://support.microsoft.com/en-us/accounts-billing/security/before-you-recycle-sell-or-gift-your-xbox-or-windows-pc",
+              "updated": "not shown on page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mac",
+      "title": "Mac (MacBook, iMac, Mac mini)",
+      "appliesTo": [
+        "laptop",
+        "desktop"
+      ],
+      "minutes": 60,
+      "sections": [
+        {
+          "id": "backup",
+          "title": "Back up what you want to keep",
+          "steps": [
+            {
+              "id": "mac-backup",
+              "text": "Back up your Mac or move your files to your new Mac first.",
+              "detail": "Erasing deletes everything on the Mac.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Erase your Mac and reset it to factory settings",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/102664",
+              "updated": "2026-09-14"
+            }
+          ]
+        },
+        {
+          "id": "eacs",
+          "title": "Erase All Content and Settings (Apple silicon or T2 Macs)",
+          "steps": [
+            {
+              "id": "check-eacs",
+              "text": "This works on Apple silicon Macs and Macs with the Apple T2 chip running macOS Monterey 12 or later.",
+              "detail": "Apple says that if you can use this feature, you don't need the older-Mac steps below.",
+              "critical": false
+            },
+            {
+              "id": "eacs-run",
+              "text": "Choose Apple menu > System Settings > General > Transfer or Reset > Erase All Content and Settings.",
+              "detail": "Enter your Mac login password, then your Apple Account password when asked, and click Erase All Content & Settings.",
+              "critical": true
+            },
+            {
+              "id": "eacs-stop",
+              "text": "When the setup screen appears, press and hold the power button until the Mac turns off.",
+              "detail": "Apple says to skip setup when you are selling or giving the Mac away.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Erase your Mac and reset it to factory settings",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/102664",
+              "updated": "2026-09-14"
+            },
+            {
+              "title": "What to do before you sell, give away, trade in, or recycle your Mac",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/102773",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "older-intel",
+          "title": "Older Intel Macs (no Erase All Content and Settings)",
+          "steps": [
+            {
+              "id": "intel-icloud",
+              "text": "Sign out of iCloud in System Settings (or System Preferences).",
+              "critical": true
+            },
+            {
+              "id": "intel-imessage",
+              "text": "In Messages, open Settings > iMessage and click Sign Out.",
+              "critical": false
+            },
+            {
+              "id": "intel-bluetooth",
+              "text": "Optional: unpair Bluetooth keyboards, mice or headphones you are keeping.",
+              "detail": "If you unpair your only keyboard and mouse, plug in USB ones first.",
+              "critical": false
+            },
+            {
+              "id": "intel-erase",
+              "text": "Start up from macOS Recovery, erase the Mac with Disk Utility, then reinstall macOS.",
+              "critical": true
+            },
+            {
+              "id": "intel-stop",
+              "text": "When the setup assistant opens, press Command-Q to shut down instead of setting it up.",
+              "detail": "Apple also suggests resetting NVRAM, then pressing Command-Q again.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "What to do before you sell, give away, trade in, or recycle your Mac",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/102773",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "device-list",
+          "title": "Remove it from your Apple Account",
+          "steps": [
+            {
+              "id": "remove-device",
+              "text": "On another Apple device or at account.apple.com > Devices, select the Mac and choose Remove from Account.",
+              "critical": false
+            },
+            {
+              "id": "find-my-remove",
+              "text": "Already handed it over? At icloud.com/find, select the Mac and choose Remove This Device.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Review devices signed in to your Apple Account",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/en-us/102649",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Remove a device from Find Devices on iCloud.com",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/guide/icloud/remove-a-device-mmfc0eeddd/icloud",
+              "updated": "not shown on page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chromebook",
+      "title": "Chromebook",
+      "appliesTo": [
+        "laptop"
+      ],
+      "minutes": 20,
+      "sections": [
+        {
+          "id": "backup",
+          "title": "Back up what you want to keep",
+          "steps": [
+            {
+              "id": "cb-backup",
+              "text": "Copy files from the Downloads folder to Google Drive or a USB drive.",
+              "detail": "A Powerwash erases all files stored on the Chromebook. Files already in Google Drive are not touched.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Reset your Chromebook to factory settings",
+              "publisher": "Google (Chromebook Help)",
+              "url": "https://support.google.com/chromebook/answer/183084",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "powerwash",
+          "title": "Powerwash (factory reset)",
+          "steps": [
+            {
+              "id": "work-school",
+              "text": "If it is a school or work Chromebook, ask the administrator to wipe it.",
+              "detail": "Managed Chromebooks can't be reset by the user.",
+              "critical": false
+            },
+            {
+              "id": "sign-out",
+              "text": "Sign out of the Chromebook.",
+              "critical": false
+            },
+            {
+              "id": "shortcut",
+              "text": "Press and hold Ctrl + Alt + Shift + R, then select Restart.",
+              "critical": true
+            },
+            {
+              "id": "confirm",
+              "text": "In the box that appears, select Powerwash, then Continue.",
+              "detail": "This deletes all user data on the Chromebook, including Downloads, settings and apps.",
+              "critical": true
+            },
+            {
+              "id": "dont-sign-in",
+              "text": "Don't sign back in after the Powerwash.",
+              "detail": "The first Google Account that signs in becomes the owner, so leave that for the next user.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Reset your Chromebook to factory settings",
+              "publisher": "Google (Chromebook Help)",
+              "url": "https://support.google.com/chromebook/answer/183084",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "online",
+          "title": "Remove it from your Google Account",
+          "steps": [
+            {
+              "id": "g-devices",
+              "text": "Go to myaccount.google.com > Security & sign-in > Manage all devices, tap the Chromebook and tap Sign out.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "See devices with account access",
+              "publisher": "Google",
+              "url": "https://support.google.com/accounts/answer/3067630",
+              "updated": "not shown on page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "feature-phone",
+      "title": "Basic (feature) phone",
+      "appliesTo": [
+        "phone"
+      ],
+      "minutes": 15,
+      "note": "Feature phones differ a lot. Steps follow HMD's official Nokia feature-phone guide (closest official source) and NIST's note that a factory reset is the accepted 'Clear' method for basic phones. Treat menu names as generic.",
+      "sections": [
+        {
+          "id": "save",
+          "title": "Save what you want to keep",
+          "steps": [
+            {
+              "id": "copy-contacts",
+              "text": "Write down or copy the contacts and messages you want to keep.",
+              "detail": "General advice, not from an official page: a basic phone has no cloud backup.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "Nokia 105 (2023) user guide: Restore factory settings",
+              "publisher": "HMD Global (Nokia phones)",
+              "url": "https://www.hmd.com/en_int/support/nokia-105-user-guide/restore-factory-settings",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "reset",
+          "title": "Factory reset",
+          "steps": [
+            {
+              "id": "restore",
+              "text": "Find Restore factory settings in the Settings menu and confirm with the phone's security code.",
+              "detail": "On the Nokia 105 (2023), type *#7370# on the home screen and enter the security code. HMD says this removes all data saved in the phone memory.",
+              "critical": true
+            },
+            {
+              "id": "check",
+              "text": "After the restart, open Contacts, Messages and the call log and check they are empty.",
+              "detail": "Delete anything that is left by hand. NIST advises checking that a wipe actually worked.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Nokia 105 (2023) user guide: Restore factory settings",
+              "publisher": "HMD Global (Nokia phones)",
+              "url": "https://www.hmd.com/en_int/support/nokia-105-user-guide/restore-factory-settings",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "NIST SP 800-88 Rev. 2, Guidelines for Media Sanitization",
+              "publisher": "NIST (US National Institute of Standards and Technology)",
+              "url": "https://csrc.nist.gov/pubs/sp/800/88/r2/final",
+              "updated": "2025-09 (final; supersedes Rev. 1 of 2014-12)"
+            }
+          ]
+        },
+        {
+          "id": "cards",
+          "title": "Take out the SIM and memory card",
+          "steps": [
+            {
+              "id": "sim-out",
+              "text": "Switch the phone off and remove the SIM card.",
+              "detail": "HMD says the reset clears data in the phone memory, so anything saved on the SIM stays on it.",
+              "critical": true
+            },
+            {
+              "id": "card-out",
+              "text": "Remove the memory card, if there is one.",
+              "detail": "Keep it, or wipe it using the Loose drives guide.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Nokia 105 (2023) user guide: Restore factory settings",
+              "publisher": "HMD Global (Nokia phones)",
+              "url": "https://www.hmd.com/en_int/support/nokia-105-user-guide/restore-factory-settings",
+              "updated": "not shown on page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "title": "Loose drives: hard disk, SSD, USB stick, memory card",
+      "appliesTo": [
+        "hdd",
+        "ssd",
+        "usb",
+        "memory-card"
+      ],
+      "minutes": 60,
+      "sections": [
+        {
+          "id": "basics",
+          "title": "Three levels of wiping (NIST SP 800-88 Rev. 2)",
+          "steps": [
+            {
+              "id": "clear",
+              "text": "Clear: erase with normal tools, such as overwriting the whole drive or a factory reset.",
+              "detail": "Protects against simple, non-invasive recovery using the drive's normal connection.",
+              "critical": false
+            },
+            {
+              "id": "purge",
+              "text": "Purge: use the drive's own secure-erase or sanitize command, or delete the encryption key (cryptographic erase).",
+              "detail": "Makes recovery infeasible even with lab techniques and keeps the drive usable. NIST says to use Purge instead of Clear when possible.",
+              "critical": false
+            },
+            {
+              "id": "destroy",
+              "text": "Destroy: shred, crush to powder, melt or burn the drive so it can never be used again.",
+              "detail": "NIST says this may be the only option when a drive has failed or is too old to connect.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "NIST SP 800-88 Rev. 2, Guidelines for Media Sanitization",
+              "publisher": "NIST (US National Institute of Standards and Technology)",
+              "url": "https://csrc.nist.gov/pubs/sp/800/88/r2/final",
+              "updated": "2025-09 (final; supersedes Rev. 1 of 2014-12)"
+            }
+          ]
+        },
+        {
+          "id": "hdd",
+          "title": "Working hard disk (HDD)",
+          "steps": [
+            {
+              "id": "hdd-overwrite",
+              "text": "Overwrite the whole drive once with a disk-wipe tool (Clear), or use its secure-erase command (Purge).",
+              "detail": "NIST says overwriting typically stops recovery even with lab techniques; the old many-pass routines are past practice.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "NIST SP 800-88 Rev. 2, Guidelines for Media Sanitization",
+              "publisher": "NIST (US National Institute of Standards and Technology)",
+              "url": "https://csrc.nist.gov/pubs/sp/800/88/r2/final",
+              "updated": "2025-09 (final; supersedes Rev. 1 of 2014-12)"
+            }
+          ]
+        },
+        {
+          "id": "flash",
+          "title": "SSD, USB stick or memory card",
+          "steps": [
+            {
+              "id": "flash-no-overwrite",
+              "text": "Don't rely on overwriting or deleting files.",
+              "detail": "NIST says flash storage keeps spare cells and spreads out writes, so overwriting cannot reach all old data. Degaussing also does not work on flash.",
+              "critical": true
+            },
+            {
+              "id": "flash-purge",
+              "text": "Use the maker's secure-erase or sanitize tool, or erase the encryption key if the drive was encrypted.",
+              "detail": "This is Purge. If you can't do that, have the drive destroyed.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "NIST SP 800-88 Rev. 2, Guidelines for Media Sanitization",
+              "publisher": "NIST (US National Institute of Standards and Technology)",
+              "url": "https://csrc.nist.gov/pubs/sp/800/88/r2/final",
+              "updated": "2025-09 (final; supersedes Rev. 1 of 2014-12)"
+            }
+          ]
+        },
+        {
+          "id": "dead",
+          "title": "Dead or damaged drives",
+          "steps": [
+            {
+              "id": "dead-destroy",
+              "text": "Don't hand over a dead drive as-is. Have it physically destroyed (shredded or pulverised).",
+              "detail": "NIST says overwriting can't be used on a drive that is damaged or no longer works, so destruction may be the only option.",
+              "critical": true
+            },
+            {
+              "id": "dead-record",
+              "text": "Ask your recycler for a record of what was destroyed.",
+              "detail": "NIST includes a sample sanitization certificate with make, serial number and method.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "NIST SP 800-88 Rev. 2, Guidelines for Media Sanitization",
+              "publisher": "NIST (US National Institute of Standards and Technology)",
+              "url": "https://csrc.nist.gov/pubs/sp/800/88/r2/final",
+              "updated": "2025-09 (final; supersedes Rev. 1 of 2014-12)"
+            }
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "Check your work",
+          "steps": [
+            {
+              "id": "verify",
+              "text": "Plug the drive in after wiping and check that your old files are gone.",
+              "detail": "NIST says checking the result is an important part of wiping.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "NIST SP 800-88 Rev. 2, Guidelines for Media Sanitization",
+              "publisher": "NIST (US National Institute of Standards and Technology)",
+              "url": "https://csrc.nist.gov/pubs/sp/800/88/r2/final",
+              "updated": "2025-09 (final; supersedes Rev. 1 of 2014-12)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "india-phone-extras",
+      "title": "UPI, WhatsApp and Find My extras (India)",
+      "appliesTo": [
+        "phone"
+      ],
+      "minutes": 20,
+      "sections": [
+        {
+          "id": "upi",
+          "title": "Unlink your bank accounts from UPI apps",
+          "steps": [
+            {
+              "id": "gpay-remove",
+              "text": "In Google Pay, tap your profile picture > Bank account, pick the account, tap More > Remove account.",
+              "detail": "Unlink any active autopay or UPI Lite on that account first; Google Pay won't remove it otherwise.",
+              "critical": true
+            },
+            {
+              "id": "signout-not-enough",
+              "text": "Don't rely on signing out, uninstalling or resetting.",
+              "detail": "Google Pay says your account and the UPI IDs you created stay active and linked to your bank after sign-out, uninstall or factory reset.",
+              "critical": true
+            },
+            {
+              "id": "other-upi",
+              "text": "Repeat in every other UPI or bank app on the phone (PhonePe, Paytm, BHIM, your bank's app).",
+              "detail": "General advice: menus differ per app. Check each app's help section.",
+              "critical": true
+            },
+            {
+              "id": "gpay-signout",
+              "text": "Then sign out: Google Pay > profile picture > Settings > Sign out.",
+              "critical": false
+            },
+            {
+              "id": "bank-sim",
+              "text": "Take out the SIM linked to your bank account and keep it.",
+              "detail": "General advice: UPI works through the mobile number registered with your bank. Google's trade-in steps also say to remove the SIM card.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Change or remove a bank account (Google Pay India, Android)",
+              "publisher": "Google",
+              "url": "https://support.google.com/pay/india/answer/7296564?co=GENIE.Platform%3DAndroid",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Sign out of Google Pay account (Google Pay India)",
+              "publisher": "Google",
+              "url": "https://support.google.com/pay/india/answer/7296414",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Send your trade-in device (Google Store Help)",
+              "publisher": "Google",
+              "url": "https://support.google.com/store/answer/14282767",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "whatsapp",
+          "title": "Back up WhatsApp",
+          "steps": [
+            {
+              "id": "wa-android",
+              "text": "Android: WhatsApp > three dots > Settings > Chats > Chat backup > Back up.",
+              "detail": "Saves to your Google Account.",
+              "critical": false
+            },
+            {
+              "id": "wa-iphone",
+              "text": "iPhone: WhatsApp > your profile picture > Chats > Chat Backup > Back Up Now.",
+              "detail": "Saves to iCloud. Use the same phone number to restore.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "How to back up your chat history (Android)",
+              "publisher": "WhatsApp",
+              "url": "https://faq.whatsapp.com/481135090640375",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "How to back up to iCloud",
+              "publisher": "WhatsApp",
+              "url": "https://faq.whatsapp.com/180225246548988",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "find-my",
+          "title": "Remove the phone from Find My",
+          "steps": [
+            {
+              "id": "find-hub",
+              "text": "Android: removing your Google Account and factory resetting takes the phone out of Google Find Hub.",
+              "detail": "Google says a reset device is no longer available in Find Hub. If you no longer have the phone, use Find Hub to factory reset it remotely.",
+              "critical": true
+            },
+            {
+              "id": "apple-find",
+              "text": "iPhone: after erasing, go to icloud.com/find, select the phone and choose Remove This Device.",
+              "detail": "Apple says this removes Activation Lock so the next owner can activate it.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Find, secure, or erase a lost Android device",
+              "publisher": "Google",
+              "url": "https://support.google.com/accounts/answer/6160491",
+              "updated": "not shown on page"
+            },
+            {
+              "title": "Remove a device from Find Devices on iCloud.com",
+              "publisher": "Apple",
+              "url": "https://support.apple.com/guide/icloud/remove-a-device-mmfc0eeddd/icloud",
+              "updated": "not shown on page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tv-router-printer",
+      "title": "Smart TV, Wi-Fi router and printer",
+      "appliesTo": [
+        "tv",
+        "router",
+        "printer"
+      ],
+      "minutes": 20,
+      "sections": [
+        {
+          "id": "tv",
+          "title": "Smart TV or streaming box (example: Google TV)",
+          "steps": [
+            {
+              "id": "tv-reset",
+              "text": "Open Settings > System > About > Factory reset.",
+              "detail": "Google says a factory reset erases all your data from the device. Other TV brands have a similar option; check your brand's support site.",
+              "critical": true
+            }
+          ],
+          "sources": [
+            {
+              "title": "Fix problems with your Google TV device",
+              "publisher": "Google",
+              "url": "https://support.google.com/googletv/answer/10070482",
+              "updated": "not shown on page"
+            }
+          ]
+        },
+        {
+          "id": "router",
+          "title": "Wi-Fi router (example: TP-Link)",
+          "steps": [
+            {
+              "id": "router-button",
+              "text": "With the router on, hold the Reset button for more than 10 seconds until the SYS light flashes quickly.",
+              "detail": "On a combined WPS/Reset button, holding it for less than 5 seconds only starts WPS. Some routers have a pinhole that needs a pin or paperclip.",
+              "critical": true
+            },
+            {
+              "id": "router-web",
+              "text": "Or log in at tplinkwifi.net, go to Advanced > System Tools > Backup and Restore and click Factory Restore.",
+              "detail": "This erases your Wi-Fi name and password, internet login and other settings. Keep the router powered on until it restarts.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "How to Factory Reset Your TP-Link Router",
+              "publisher": "TP-Link",
+              "url": "https://www.tp-link.com/us/support/faq/497/",
+              "updated": "2026-04-17"
+            }
+          ]
+        },
+        {
+          "id": "printer",
+          "title": "Printer (example: HP LaserJet Pro)",
+          "steps": [
+            {
+              "id": "printer-reset",
+              "text": "On the touchscreen, open Setup > Printer Maintenance > Restore > Restore Factory Defaults.",
+              "detail": "HP says this returns all printer and network settings to factory defaults and deletes pages stored in memory. Menus differ on other models.",
+              "critical": true
+            },
+            {
+              "id": "printer-ews",
+              "text": "Change or remove the printer's admin (EWS) password separately.",
+              "detail": "HP says a factory reset does not reset the Embedded Web Server password.",
+              "critical": false
+            }
+          ],
+          "sources": [
+            {
+              "title": "HP LaserJet Pro - Restore the factory-set defaults",
+              "publisher": "HP",
+              "url": "https://support.hp.com/us-en/document/ish_6180774-6013408-16",
+              "updated": "not checked (page timed out; content confirmed from search index of this page)"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "batterySafety": {
+    "steps": [
+      {
+        "id": "stop-using",
+        "text": "Stop using a battery that is swollen, hot, leaking, smelly, discoloured or has changed shape.",
+        "detail": "US EPA says swelling means the battery is damaged and is a fire hazard.",
+        "critical": true
+      },
+      {
+        "id": "no-charge",
+        "text": "Don't charge it or switch the device on.",
+        "detail": "The US Fire Administration says to stop using a battery that shows these signs.",
+        "critical": true
+      },
+      {
+        "id": "no-puncture",
+        "text": "Don't press, bend, puncture or try to open it.",
+        "detail": "EPA warns that damaged or crushed lithium batteries can start fires.",
+        "critical": true
+      },
+      {
+        "id": "tape",
+        "text": "Cover the metal terminals with electrical tape and put each battery or device in its own plastic bag.",
+        "critical": true
+      },
+      {
+        "id": "away-from-heat",
+        "text": "Keep it out of sunlight and hot places, away from anything that can burn.",
+        "detail": "EPA suggests storing a swollen battery in a container of sand or somewhere away from flammable things until you can hand it over.",
+        "critical": true
+      },
+      {
+        "id": "no-dustbin",
+        "text": "Never put it in the household dustbin or dry-waste bag. Give it to an e-waste collector or recycler.",
+        "detail": "For a damaged battery, EPA advises asking the device maker or seller how to handle it.",
+        "critical": true
+      },
+      {
+        "id": "fire",
+        "text": "If it smokes or catches fire, move away and call emergency services.",
+        "detail": "US EPA says to call emergency services if there is an immediate fire risk.",
+        "critical": false
+      }
+    ],
+    "sources": [
+      {
+        "title": "Used Lithium-Ion Batteries",
+        "publisher": "US EPA",
+        "url": "https://www.epa.gov/recycle/used-lithium-ion-batteries",
+        "updated": "2026-03-20"
+      },
+      {
+        "title": "Frequent Questions on Lithium-Ion Batteries",
+        "publisher": "US EPA",
+        "url": "https://www.epa.gov/recycle/frequent-questions-lithium-ion-batteries",
+        "updated": "2026-04-14"
+      },
+      {
+        "title": "Battery Fire Safety",
+        "publisher": "US Fire Administration (FEMA)",
+        "url": "https://www.usfa.fema.gov/prevention/home-fires/prevent-fires/batteries/",
+        "updated": "2024-11-07 (last reviewed)"
+      }
+    ]
+  }
+}

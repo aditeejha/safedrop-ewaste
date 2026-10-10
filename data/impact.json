@@ -1,0 +1,167 @@
+{
+ "warm": {
+  "unit": "metric tonnes CO2e per short ton",
+  "source": {
+   "title": "WARM v16 Electronics chapter (EPA-530-R-23-022), Exhibit 1-5",
+   "publisher": "U.S. Environmental Protection Agency",
+   "date": "2023-12",
+   "url": "https://www.epa.gov/system/files/documents/2023-12/warm_electronics_v16_dec.pdf"
+  },
+  "materials": {
+   "Desktop CPUs": {
+    "recycling": -1.49,
+    "landfilling": 0.02
+   },
+   "Portable Electronic Devices": {
+    "recycling": -1.06,
+    "landfilling": 0.02
+   },
+   "Flat-Panel Displays": {
+    "recycling": -0.99,
+    "landfilling": 0.02
+   },
+   "CRT Displays": {
+    "recycling": -0.57,
+    "landfilling": 0.02
+   },
+   "Electronic Peripherals": {
+    "recycling": -0.36,
+    "landfilling": 0.02
+   },
+   "Hard-Copy Devices": {
+    "recycling": -0.56,
+    "landfilling": 0.02
+   },
+   "Mixed Electronics": {
+    "recycling": -0.9,
+    "landfilling": 0.02
+   }
+  }
+ },
+ "energy": {
+  "unit": "million Btu per short ton",
+  "source": {
+   "title": "WARM v16 Management Practices Chapters, Chapter 7: Energy Impacts, Exhibit 7-12",
+   "publisher": "U.S. Environmental Protection Agency",
+   "date": "2023-12",
+   "url": "https://www.epa.gov/system/files/documents/2024-01/warm_management_practices_v16_dec.pdf"
+  },
+  "materials": {
+   "Desktop CPUs": {
+    "recycling": -21.21,
+    "landfilling": 0.27
+   },
+   "Portable Electronic Devices": {
+    "recycling": -20.95,
+    "landfilling": 0.27
+   },
+   "Flat-Panel Displays": {
+    "recycling": -15.07,
+    "landfilling": 0.27
+   },
+   "CRT Displays": {
+    "recycling": -7.95,
+    "landfilling": 0.27
+   },
+   "Electronic Peripherals": {
+    "recycling": -7.88,
+    "landfilling": 0.27
+   },
+   "Hard-Copy Devices": {
+    "recycling": -7.91,
+    "landfilling": 0.27
+   },
+   "Mixed Electronics": {
+    "recycling": -14.02,
+    "landfilling": 0.27
+   }
+  },
+  "kwhPerMillionBtu": 293.07107,
+  "conversionSource": "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8",
+  "sourceReductionPortable": -163.36,
+  "ledBulbWatts": 9
+ },
+ "kindMaterial": {
+  "phone": "Portable Electronic Devices",
+  "feature-phone": "Portable Electronic Devices",
+  "tablet": "Portable Electronic Devices",
+  "laptop": "Portable Electronic Devices",
+  "smartwatch": "Portable Electronic Devices",
+  "desktop": "Desktop CPUs",
+  "monitor": "Flat-Panel Displays",
+  "tv": "Flat-Panel Displays",
+  "printer": "Hard-Copy Devices",
+  "router": "Mixed Electronics",
+  "storage": "Mixed Electronics",
+  "earphones": "Mixed Electronics",
+  "charger": "Mixed Electronics",
+  "other": "Mixed Electronics"
+ },
+ "typicalKg": {
+  "phone": {
+   "kg": 0.09,
+   "basis": "Mobile phones (incl. smartphones) - UNU-KEY 0306"
+  },
+  "feature-phone": {
+   "kg": 0.09,
+   "basis": "Mobile phones (incl. smartphones) - UNU-KEY 0306"
+  },
+  "tablet": {
+   "kg": 1.26,
+   "basis": "Laptops (incl. tablets) - UNU-KEY 0303"
+  },
+  "laptop": {
+   "kg": 1.26,
+   "basis": "Laptops (incl. tablets) - UNU-KEY 0303"
+  },
+  "desktop": {
+   "kg": 8.77,
+   "basis": "Desktop PCs (excl. monitors, accessories) - UNU-KEY 0302"
+  },
+  "printer": {
+   "kg": 10.32,
+   "basis": "Printers (incl. scanners, multifunctionals, faxes) - UNU-KEY 0304"
+  },
+  "monitor": {
+   "kg": 5.5,
+   "basis": "Flat display panel monitors (LCD, LED) - UNU-KEY 0309"
+  },
+  "tv": {
+   "kg": 10.2,
+   "basis": "Flat display panel TVs (LCD, LED, plasma) - UNU-KEY 0408"
+  },
+  "router": {
+   "kg": 0.4,
+   "basis": "Small IT equipment (routers, mice, keyboards, external drives and accessories) - UNU-KEY 0301"
+  },
+  "storage": {
+   "kg": 0.4,
+   "basis": "Small IT equipment (routers, mice, keyboards, external drives and accessories) - UNU-KEY 0301"
+  },
+  "earphones": {
+   "kg": 0.39,
+   "basis": "Small consumer electronics (headphones, remote controls) - UNU-KEY 0401"
+  }
+ },
+ "typicalKgSource": {
+  "title": "E-waste Statistics: Guidelines on Classification, Reporting and Indicators, 2nd ed. (average weight per piece, EU-28, 2016)",
+  "publisher": "United Nations University (Forti, Baldé, Kuehr 2018), reproduced by UNEP",
+  "date": "2018",
+  "url": "https://sdgs.unep.org/article/annex-v-indication-average-weight-electric-and-electronic-equipment-eu-28-kgpiece"
+ },
+ "phoneMetals": {
+  "gramsPerPhone": {
+   "copper": 16,
+   "silver": 0.35,
+   "gold": 0.034,
+   "palladium": 0.015
+  },
+  "basis": "A typical 113 g cell phone, excluding battery and charger",
+  "source": {
+   "title": "Fact Sheet 2006-3097: Recycled Cell Phones, a Treasure Trove of Valuable Metals (Table 1)",
+   "publisher": "U.S. Geological Survey",
+   "date": "2006-07",
+   "url": "https://pubs.usgs.gov/fs/2006/3097/fs2006-3097.pdf"
+  }
+ }
+}

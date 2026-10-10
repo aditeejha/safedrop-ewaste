@@ -1,0 +1,15 @@
+node_modules/
+dist/
+cdk.out/
+.env
+.env.*
+!.env.example
+web/public/config.json
+api/.local/
+research/raw/
+docs/build/
+*.log
+.DS_Store
+infra/outputs.json
+design/source-images/
+web/site.zip

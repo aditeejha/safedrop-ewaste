@@ -1,0 +1,53 @@
+{
+  "unit": "million Btu per short ton",
+  "source": {
+    "title": "Documentation Chapters for Greenhouse Gas Emission, Energy and Economic Factors Used in the Waste Reduction Model (WARM) Version 16 - Management Practices Chapters, Chapter 7: Energy Impacts",
+    "publisher": "U.S. Environmental Protection Agency, Office of Resource Conservation and Recovery",
+    "date": "December 2023",
+    "url": "https://www.epa.gov/system/files/documents/2024-01/warm_management_practices_v16_dec.pdf",
+    "landing_page": "https://www.epa.gov/warm/documentation-chapters-greenhouse-gas-emission-energy-and-economic-factors-used-waste",
+    "table": "Exhibit 7-12: Net Energy Impacts from Source Reduction and MSW Management Options (Million Btu/Ton), columns 'Recycling' and 'Landfilling' (electronics rows on chapter page 7-15, PDF page 108). Cross-checked against Exhibit 7-7 column (d) Net Energy (chapter page 7-8, PDF page 101) and Exhibit 7-11 column (d) Net Energy (chapter page 7-14, PDF page 107).",
+    "local_copy": "research/raw/facts/warm_management_practices_v16_dec.pdf",
+    "local_copy_sha256": "edaf1f0da21793668e1948043ea623e3e051707127bd6116a0c7d16a372c0e5d"
+  },
+  "materials": {
+    "Desktop CPUs": {
+      "recycling": -21.21,
+      "landfilling": 0.27
+    },
+    "Portable Electronic Devices": {
+      "recycling": -20.95,
+      "landfilling": 0.27
+    },
+    "Flat-Panel Displays": {
+      "recycling": -15.07,
+      "landfilling": 0.27
+    },
+    "CRT Displays": {
+      "recycling": -7.95,
+      "landfilling": 0.27
+    },
+    "Electronic Peripherals": {
+      "recycling": -7.88,
+      "landfilling": 0.27
+    },
+    "Hard-Copy Devices": {
+      "recycling": -7.91,
+      "landfilling": 0.27
+    },
+    "Mixed Electronics": {
+      "recycling": -14.02,
+      "landfilling": 0.27
+    }
+  },
+  "conversion": {
+    "kwh_per_million_btu": 293.07107,
+    "derivation": "1 Btu_IT = 1055.05585262 J exactly (NIST SP 811 footnote 9); 1 kWh = 3.6e6 J exactly (NIST SP 811 Appendix B.8). 1e6 x 1055.05585262 / 3.6e6 = 293.07107 kWh. Consistent with EIA's rounded factor 1 kWh = 3,412 Btu.",
+    "sources": [
+      "https://www.nist.gov/pml/special-publication-811/nist-guide-si-footnotes",
+      "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8",
+      "https://www.eia.gov/energyexplained/units-and-calculators/british-thermal-units.php"
+    ]
+  },
+  "notes": "Values copied exactly from EPA's table; EPA prints negatives in parentheses, recorded here as negative numbers. Negative = net energy saved (Exhibit 7-12 note: 'Negative energy impacts = Energy savings'). Recycling is per short ton COLLECTED for recycling (chapter footnote 35), and it is a full-product credit: Exhibit 7-7 splits it into recycled-input process-energy credit plus transportation energy. Electronics landfilling is 0.27 everywhere; it is transport to the landfill only, with no landfill-gas energy credit (NA). WARM's 'energy saved by recycling vs landfilling' is the difference recycling minus landfilling (method of Exhibit 7-2), e.g. Desktop CPUs -21.21 - 0.27 = -21.48 million Btu/short ton; the app has to do that arithmetic itself, because EPA prints no per-material difference table for electronics (Exhibit 7-1 is a chart only). EPA rounds the components separately, so they do not always add up: Hard-Copy Devices process (7.90) + transport (0.02) prints as net (7.91). Use the printed net value. Unit is the US short ton (2,000 lb). The Electronics chapter (EPA-530-R-23-022) does not tabulate energy factors; it says energy results follow the Energy Impacts chapter. The same Exhibit 7-12 also gives combustion and source-reduction values (e.g. source reduction for Portable Electronic Devices -163.36; CRT Displays source reduction NA). The EPA landing page also lists this PDF as the 'Management Practices Chapter'. Energy Impacts is chapter 7 inside it; EPA publishes no standalone Energy Impacts PDF and no separate v16 factors spreadsheet on that page."
+}
