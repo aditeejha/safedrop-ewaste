@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import { handoverCode, isHandoverCode, newId } from '../src/lib/codes.js'
 import { criticalStepIds, findGuide, guides } from '../src/lib/guides.js'
 import { co2eAvoidedKg, energySavedKwh, itemImpact, ledHours, metalsRecoverableGrams, sumImpact, typicalKg } from '../src/lib/impact.js'
-import { guideFor, holdsData } from '../src/lib/kinds.js'
+import { defaultLabel, guideFor, holdsData } from '../src/lib/kinds.js'
 import { shortName } from '../src/routes/public.js'
 import { withCitations } from '../src/lib/assistant.js'
 
@@ -83,7 +83,14 @@ test('certificate names are shortened for privacy', () => {
 
 test('helper citations are renumbered to match the returned sources', () => {
   const sources = Array.from({ length: 30 }, (v, i) => ({ title: `S${i + 1}`, publisher: 'P', url: `https://x/${i + 1}` }))
-  const result = withCitations('Remove the account [27]. Then reset [28][27]. Ignore [99].', sources)
-  assert.equal(result.answer, 'Remove the account [1]. Then reset [2][1]. Ignore .')
-  assert.deepEqual(result.sources.map((s) => s.title), ['S27', 'S28'])
+  const result = withCitations('Remove the account [27]. Then reset [28][27]. Both [8, 27]. Ignore [99].', sources)
+  assert.equal(result.answer, 'Remove the account [1]. Then reset [2][1]. Both [3, 1]. Ignore .')
+  assert.deepEqual(result.sources.map((s) => s.title), ['S27', 'S28', 'S8'])
+})
+
+test('devices get a readable default label', () => {
+  assert.equal(defaultLabel('phone', null, null), 'Smartphone')
+  assert.equal(defaultLabel('phone', 'Apple', null), 'Apple smartphone')
+  assert.equal(defaultLabel('laptop', 'Dell', 'Inspiron 15'), 'Dell Inspiron 15')
+  assert.equal(defaultLabel('charger', null, 'Type-C 25W'), 'Type-C 25W')
 })

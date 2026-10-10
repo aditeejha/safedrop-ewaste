@@ -19,6 +19,30 @@ export const deviceKinds = [
 export type DeviceKind = (typeof deviceKinds)[number]
 
 export const osNames = ['android', 'ios', 'ipados', 'windows', 'macos', 'chromeos', 'other'] as const
+export const kindNames: Record<DeviceKind, string> = {
+  phone: 'Smartphone',
+  'feature-phone': 'Keypad phone',
+  tablet: 'Tablet',
+  laptop: 'Laptop',
+  desktop: 'Desktop PC',
+  monitor: 'Monitor',
+  tv: 'TV',
+  router: 'Wi-Fi router',
+  printer: 'Printer',
+  storage: 'Storage drive',
+  smartwatch: 'Smartwatch',
+  earphones: 'Earphones',
+  charger: 'Charger',
+  battery: 'Battery',
+  other: 'Device',
+}
+
+export function defaultLabel(kind: DeviceKind, brand: string | null, model: string | null) {
+  if (brand && model) return `${brand} ${model}`
+  if (model) return model
+  return brand ? `${brand} ${kindNames[kind].toLowerCase()}` : kindNames[kind]
+}
+
 export type OsName = (typeof osNames)[number]
 
 const dataKinds = new Set<DeviceKind>(['phone', 'feature-phone', 'tablet', 'laptop', 'desktop', 'tv', 'router', 'printer', 'storage', 'smartwatch'])

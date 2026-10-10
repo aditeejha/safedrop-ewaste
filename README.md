@@ -5,6 +5,7 @@
 Track: **Waste and Energy** (E-waste · Recycling · Segregation · Informal recyclers)
 
 - **Live app:** https://main.d2ykddnngohyy3.amplifyapp.com
+- **Documentation (PDF):** [docs/SafeDrop-eWaste-Documentation.pdf](docs/SafeDrop-eWaste-Documentation.pdf)
 - **Demo login:** `demo@example.com` / `SafeDrop@2026`. One account is a user, a drop-point partner and a kabadiwala pickup partner, so you can run the whole flow alone. Demo activity is labelled and kept out of the public impact totals.
 
 ---
@@ -89,7 +90,7 @@ node scripts/deploy.mjs     # builds, deploys the CDK stack, writes web/public/c
 node scripts/seed.mjs       # demo drop point, demo account and demo pickup partner
 npm run dev:api             # http://localhost:8787/api/health
 npm run dev:web             # http://localhost:5173
-npm test                    # domain tests: codes, guide matching, CO₂e and energy maths
+npm test                    # domain tests: codes, labels, guide matching, CO₂e and energy maths, citations
 node scripts/e2e.mjs        # full journey against the deployed API (drop-off and kabadiwala pickup)
 node scripts/reset-demo.mjs # clear the demo account's data
 ```

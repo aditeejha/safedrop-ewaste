@@ -4,7 +4,7 @@ import { isDemo, type AppEnv } from '../auth.js'
 import { db, deleteItem, getItem, putItem, queryAll, strip, TableName } from '../db.js'
 import { newId } from '../lib/codes.js'
 import { criticalStepIds, findGuide, stepIds } from '../lib/guides.js'
-import { guideFor, holdsData, isDeviceKind } from '../lib/kinds.js'
+import { defaultLabel, guideFor, holdsData, isDeviceKind } from '../lib/kinds.js'
 import { bumpStats } from '../lib/quota.js'
 import type { Device } from '../types.js'
 
@@ -44,7 +44,7 @@ devices.post('/', async (c) => {
     kind: body.kind,
     brand,
     model,
-    label: text(body.label) ?? ([brand, model].filter(Boolean).join(' ') || body.kind.replace('-', ' ')),
+    label: text(body.label) ?? defaultLabel(body.kind, brand, model),
     guideId: dataBearing ? guideId : null,
     holdsData: dataBearing,
     steps: {},

@@ -32,16 +32,22 @@ function contextFor(guideList: Guide[]) {
   return { text: `${blocks.join('\n\n')}\n\nSources:\n${sourceList}`, sources }
 }
 
-// The model cites sources by their number in the full context; renumber them 1..n in citation order.
+// The model cites sources by their number in the full context, as [3] or [3, 7]; renumber them 1..n in citation order.
 function withCitations(answer: string, sources: Source[]) {
+  const cite = /\[(\d+(?:\s*,\s*\d+)*)\]/g
   const order: number[] = []
-  for (const match of answer.matchAll(/\[(\d+)\]/g)) {
-    const index = Number(match[1]) - 1
-    if (sources[index] && !order.includes(index)) order.push(index)
+  for (const match of answer.matchAll(cite)) {
+    for (const n of match[1].split(',')) {
+      const index = Number(n) - 1
+      if (sources[index] && !order.includes(index)) order.push(index)
+    }
   }
-  const text = answer.replace(/\[(\d+)\]/g, (whole, n) => {
-    const position = order.indexOf(Number(n) - 1)
-    return position === -1 ? '' : `[${position + 1}]`
+  const text = answer.replace(cite, (whole, list: string) => {
+    const kept = list
+      .split(',')
+      .map((n) => order.indexOf(Number(n) - 1) + 1)
+      .filter((n) => n > 0)
+    return kept.length ? `[${kept.join(', ')}]` : ''
   })
   return { answer: text.trim(), sources: order.map((i) => sources[i]) }
 }
