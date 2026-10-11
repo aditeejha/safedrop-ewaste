@@ -31,9 +31,26 @@ Reply with JSON only, exactly this shape:
  "notes": one short sentence for the owner}
 Use "feature-phone" for keypad phones. batteryRisk is "likely" only when a swollen or bulging battery is visible, or the back panel or screen is pushed out by swelling; "possible" when the case is split or the device is crushed. Name a brand or model only if a logo, text or a very distinctive design is visible. If the photo shows no electronic device, use kind "other" with confidence below 0.3.`
 
+// Models sometimes add text or a second object after the JSON, so read only the first complete object.
+export function firstJsonObject(text: string) {
+  const start = text.indexOf('{')
+  if (start === -1) throw new Error('No JSON object in the model reply')
+  let depth = 0
+  let inString = false
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i]
+    if (inString) {
+      if (ch === '\\') i++
+      else if (ch === '"') inString = false
+    } else if (ch === '"') inString = true
+    else if (ch === '{') depth++
+    else if (ch === '}' && --depth === 0) return JSON.parse(text.slice(start, i + 1)) as Record<string, unknown>
+  }
+  throw new Error('Unfinished JSON object in the model reply')
+}
+
 function parseModelJson(text: string) {
-  const json = text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)
-  const raw = JSON.parse(json) as Record<string, unknown>
+  const raw = firstJsonObject(text)
   const kind = isDeviceKind(raw.kind) ? raw.kind : 'other'
   const brand = typeof raw.brand === 'string' && raw.brand.trim() ? raw.brand.trim() : null
   const os = typeof raw.os === 'string' && (osNames as readonly string[]).includes(raw.os) ? raw.os : null

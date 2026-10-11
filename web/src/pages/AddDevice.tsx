@@ -44,7 +44,7 @@ function AddDeviceForm() {
   const saveKey = useIdempotencyKey()
 
   // A guide the user picked wins; otherwise it follows the current type, brand and detected OS.
-  const suggestedGuide = guideFor(kind, brand, result?.os)
+  const suggestedGuide = guideFor(kind, brand, result && brand.trim().toLowerCase() === (result.brand ?? '').toLowerCase() ? result.os : null)
   const effectiveGuide = dataKinds.includes(kind) ? guideId || suggestedGuide : null
 
   async function scan(file: File) {
@@ -77,7 +77,7 @@ function AddDeviceForm() {
     mutationFn: () =>
       api<Device>('/me/devices', {
         method: 'POST',
-        json: { kind, brand, model, guideId: effectiveGuide, os: result?.os, identification: result ?? undefined, condition },
+        json: { kind, brand, model, guideId: effectiveGuide, identification: result ?? undefined, condition },
         idempotencyKey: saveKey.key,
       }),
     onSuccess: (device) => {

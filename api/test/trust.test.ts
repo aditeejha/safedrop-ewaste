@@ -4,6 +4,7 @@ import { suggestActions } from '../src/lib/assistant.js'
 import { codeKey, qrPayload, readQrPayload } from '../src/lib/codes.js'
 import { canMoveBooking, canMoveDevice } from '../src/lib/lifecycle.js'
 import { decideRoute, readCondition } from '../src/lib/route.js'
+import { firstJsonObject } from '../src/lib/vision.js'
 import { genesisHash, nextEvent, verifyTrail, type TrailEvent } from '../src/lib/trail.js'
 
 test('devices only move along the allowed lifecycle', () => {
@@ -69,4 +70,10 @@ test('helper actions come from rules, not the model', () => {
   assert.ok(kinds('Can a kabadiwala pick it up from home?').includes('prepare-pickup'))
   assert.deepEqual(kinds('hello'), [])
   assert.deepEqual(suggestActions('reset', [], 'android')[0], { type: 'open-guide', guideId: 'android', title: 'Android phone or tablet (Android 12 and newer)' })
+})
+
+test('model replies are read up to the first complete JSON object', () => {
+  assert.deepEqual(firstJsonObject('{"kind":"phone","notes":"a } in text"}\n{"kind":"laptop"}'), { kind: 'phone', notes: 'a } in text' })
+  assert.deepEqual(firstJsonObject('Here you go: {"a":{"b":"\\"x\\""}} thanks'), { a: { b: '"x"' } })
+  assert.throws(() => firstJsonObject('no json here'))
 })
