@@ -163,5 +163,10 @@
    "date": "2006-07",
    "url": "https://pubs.usgs.gov/fs/2006/3097/fs2006-3097.pdf"
   }
+ },
+ "version": {
+  "formula": "safedrop-impact-1",
+  "factors": "US EPA WARM v16 (Dec 2023)",
+  "weights": "UNU 2018 (prefill only)"
  }
 }

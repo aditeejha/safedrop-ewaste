@@ -25,7 +25,7 @@ export default function Guides() {
       <PageHeader
         eyebrow="Wipe guides"
         title="Wipe it properly, the first time"
-        intro="Ten checklists written from each maker’s own help pages. No account needed: tick steps as you go and your progress stays on this device."
+        intro="Ten checklists written from each maker’s own help pages. No account needed: progress stays on this device, and once opened the guides keep working without internet. For a wipe record on your receipt, add the device to your drawer."
       />
       <div className="mb-10 grid gap-6 md:grid-cols-[1fr_1.2fr]">
         <Picture name="step-wipe" alt="An old phone being reset, with its SIM tray and memory card removed" className="aspect-[3/2] w-full border border-line" />
@@ -57,7 +57,7 @@ export default function Guides() {
                 <span className="text-ember-700">{progress.critical} critical</span>
               </div>
               <div className="mt-auto flex items-center justify-between pt-5 text-sm">
-                <span className="text-ink-3">{progress.done ? `${progress.done}/${progress.total} done` : 'Not started'}</span>
+                <span className="text-ink-3">{progress.answered ? `${progress.answered}/${progress.total} answered` : `Reviewed ${guide.reviewedAt}`}</span>
                 <ArrowRight className="size-4 text-ink-3 transition-transform group-hover:translate-x-1 group-hover:text-ink" />
               </div>
             </Link>

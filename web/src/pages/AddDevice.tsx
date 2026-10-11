@@ -3,12 +3,13 @@ import { AlertTriangle, Camera, Check, ImageUp, Loader2, Sparkles } from 'lucide
 import { useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import { BatterySafety } from '../components/BatterySafety'
+import { ConditionForm } from '../components/Condition'
 import { RequireAuth } from '../components/RequireAuth'
 import { ErrorNote, Page, PageHeader, Picture } from '../components/ui'
-import { api, errorText } from '../lib/api'
+import { api, errorText, useIdempotencyKey } from '../lib/api'
 import { dataKinds, guideFor, kindLabels, useGuides } from '../lib/data'
 import { compressImage } from '../lib/image'
-import type { Device, DeviceKind, Identification } from '../lib/types'
+import type { Condition, Device, DeviceKind, Identification } from '../lib/types'
 
 const guideKind: Record<string, DeviceKind> = {
   android: 'phone',
@@ -39,6 +40,8 @@ function AddDeviceForm() {
   const [brand, setBrand] = useState(presetGuide === 'samsung' ? 'Samsung' : presetGuide === 'iphone' || presetGuide === 'mac' ? 'Apple' : '')
   const [model, setModel] = useState('')
   const [guideId, setGuideId] = useState<string>(presetGuide ?? '')
+  const [condition, setCondition] = useState<Condition>({})
+  const saveKey = useIdempotencyKey()
 
   // A guide the user picked wins; otherwise it follows the current type, brand and detected OS.
   const suggestedGuide = guideFor(kind, brand, result?.os)
@@ -51,9 +54,12 @@ function AddDeviceForm() {
     setPreview(URL.createObjectURL(file))
     try {
       const blob = await compressImage(file)
-      const upload = await api<{ key: string; url: string }>('/me/photos', { method: 'POST', json: { contentType: 'image/jpeg' } })
-      const put = await fetch(upload.url, { method: 'PUT', body: blob, headers: { 'content-type': 'image/jpeg' } })
-      if (!put.ok) throw new Error('Photo upload failed. Please try again.')
+      const upload = await api<{ key: string; url: string; fields: Record<string, string> }>('/me/photos', { method: 'POST', json: { contentType: 'image/jpeg' } })
+      const form = new FormData()
+      for (const [field, value] of Object.entries(upload.fields)) form.append(field, value)
+      form.append('file', blob)
+      const post = await fetch(upload.url, { method: 'POST', body: form })
+      if (!post.ok) throw new Error(post.status === 400 ? 'That photo is too large (over 5 MB).' : 'Photo upload failed. Please try again.')
       const id = await api<Identification>('/me/photos/identify', { method: 'POST', json: { key: upload.key } })
       setResult(id)
       setKind(id.kind)
@@ -71,9 +77,11 @@ function AddDeviceForm() {
     mutationFn: () =>
       api<Device>('/me/devices', {
         method: 'POST',
-        json: { kind, brand, model, guideId: effectiveGuide, os: result?.os, identification: result ?? undefined },
+        json: { kind, brand, model, guideId: effectiveGuide, os: result?.os, identification: result ?? undefined, condition },
+        idempotencyKey: saveKey.key,
       }),
     onSuccess: (device) => {
+      saveKey.renew()
       client.invalidateQueries({ queryKey: ['devices'] })
       navigate(`/drawer/${device.id}`)
     },
@@ -142,13 +150,14 @@ function AddDeviceForm() {
                 </div>
               )}
               {result.labels && <p className="mt-3 text-xs text-ink-3">Labels seen: {result.labels.join(', ')}</p>}
-              <p className="mt-3 font-mono text-[10px] uppercase tracking-wider text-ink-3">Identified by {engineName[result.engine]} · please check below</p>
+              <p className="mt-3 font-mono text-[10px] uppercase tracking-wider text-ink-3">Suggested by {engineName[result.engine]} · please check below</p>
+              <p className="mt-1 text-xs text-ink-3">A suggestion from a photo, not a diagnosis: it can’t tell whether the device works or how healthy the battery is.</p>
             </div>
           )}
           {risky && (
             <div className="card border-ember-400 p-5">
               <p className="flex items-center gap-2 font-semibold text-ember-700">
-                <AlertTriangle className="size-4" /> The battery may be swollen
+                <AlertTriangle className="size-4" /> The photo suggests the battery may be swollen
               </p>
               <BatterySafety />
             </div>
@@ -211,6 +220,12 @@ function AddDeviceForm() {
           ) : (
             <p className="border border-sky-200 bg-sky-50 px-3 py-2.5 text-sm text-sky-700">No personal data on this kind of item. It will be ready to drop straight away.</p>
           )}
+          <details className="border border-line p-3" open={Boolean(result)}>
+            <summary className="cursor-pointer text-sm font-medium">Its condition (optional, helps us suggest reuse or recycling)</summary>
+            <div className="mt-3">
+              <ConditionForm value={condition} holdsData={dataKinds.includes(kind)} onChange={setCondition} />
+            </div>
+          </details>
           {save.isError && <ErrorNote>{errorText(save.error)}</ErrorNote>}
           <button type="submit" className="btn-gold w-full py-3" disabled={save.isPending || scanning}>
             {save.isPending && <Loader2 className="size-4 animate-spin" />} Add to my drawer

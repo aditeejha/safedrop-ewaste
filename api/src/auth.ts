@@ -40,6 +40,13 @@ export function isDemo(user: User) {
   return user.groups.includes('demo')
 }
 
+export function requireGroup(group: string, message: string) {
+  return createMiddleware<AppEnv>(async (c, next) => {
+    if (!c.get('user').groups.includes(group)) return c.json({ error: message }, 403)
+    await next()
+  })
+}
+
 export const requirePartner = createMiddleware<AppEnv>(async (c, next) => {
   const user = c.get('user')
   if (!user.groups.includes('partner') || !user.pointId) {

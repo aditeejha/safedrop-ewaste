@@ -20,18 +20,3 @@ export async function takeAiQuota(userId: string) {
     throw err
   }
 }
-
-// Activity from the judges' demo account is kept apart so public impact only counts real handovers.
-export async function bumpStats(changes: Record<string, number>, demo = false) {
-  const entries = Object.entries(changes).filter(([, v]) => v !== 0)
-  if (!entries.length) return
-  await db.send(
-    new UpdateCommand({
-      TableName,
-      Key: { pk: 'STATS', sk: demo ? 'DEMO' : 'TOTAL' },
-      UpdateExpression: `ADD ${entries.map(([key], i) => `#k${i} :v${i}`).join(', ')}`,
-      ExpressionAttributeNames: Object.fromEntries(entries.map(([k], i) => [`#k${i}`, k])),
-      ExpressionAttributeValues: Object.fromEntries(entries.map(([, v], i) => [`:v${i}`, v])),
-    }),
-  )
-}

@@ -1,5 +1,6 @@
 // Clears everything the judges' demo account created, so the next judge starts clean.
 // node scripts/reset-demo.mjs [--all-stats]   (--all-stats also clears the real totals; only for pre-launch test data)
+import './aws-guard.mjs'
 import { AdminGetUserCommand, CognitoIdentityProviderClient } from '@aws-sdk/client-cognito-identity-provider'
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { BatchWriteCommand, DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb'

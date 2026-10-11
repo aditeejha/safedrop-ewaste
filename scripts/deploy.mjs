@@ -1,5 +1,7 @@
 // Builds everything and deploys the CDK stack to the hackathon AWS account only.
+import { GetParameterCommand, PutParameterCommand, SSMClient } from '@aws-sdk/client-ssm'
 import { execSync } from 'node:child_process'
+import { randomBytes } from 'node:crypto'
 import { cpSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { setTimeout as wait } from 'node:timers/promises'
 
@@ -32,8 +34,19 @@ const cdkEnv = {
   AWS_PROFILE: profile,
   AWS_REGION: region,
   CDK_DEFAULT_ACCOUNT: hackathonAccount,
-  GEMINI_API_KEY: apiEnv.GEMINI_API_KEY ?? '',
   BEDROCK_ENABLED: apiEnv.BEDROCK_ENABLED ?? 'false',
+}
+
+// Secrets go to SSM SecureString parameters through the SDK, so they never appear on a command line or in the template.
+process.env.AWS_PROFILE = profile
+const ssm = new SSMClient({ region })
+if (apiEnv.GEMINI_API_KEY) {
+  await ssm.send(new PutParameterCommand({ Name: '/safedrop/gemini-api-key', Type: 'SecureString', Value: apiEnv.GEMINI_API_KEY, Overwrite: true }))
+}
+try {
+  await ssm.send(new GetParameterCommand({ Name: '/safedrop/qr-secret' }))
+} catch {
+  await ssm.send(new PutParameterCommand({ Name: '/safedrop/qr-secret', Type: 'SecureString', Value: randomBytes(32).toString('base64url') }))
 }
 
 run('node scripts/build-data.mjs')
@@ -80,6 +93,8 @@ if (!process.argv.includes('--skip-web')) {
 }
 const localEnv = {
   ...apiEnv,
+  GEMINI_PARAM: '/safedrop/gemini-api-key',
+  QR_SECRET_PARAM: '/safedrop/qr-secret',
   AWS_PROFILE: profile,
   AWS_REGION: region,
   TABLE_NAME: outputs.TableName,

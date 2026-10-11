@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 import { RequireAuth } from '../components/RequireAuth'
 import { ErrorNote, Page, PageHeader, Picture, Spinner } from '../components/ui'
-import { api, errorText } from '../lib/api'
-import { kindLabels } from '../lib/data'
+import { api, errorText, useIdempotencyKey } from '../lib/api'
+import { formatDate, kindLabels } from '../lib/data'
 import type { Booking, Device, Point } from '../lib/types'
 
 function isoDate(offsetDays: number) {
@@ -23,6 +23,7 @@ function BookForm() {
   const [pointId, setPointId] = useState(params.get('point') ?? '')
   const [date, setDate] = useState(isoDate(1))
   const [selected, setSelected] = useState<Set<string>>(() => new Set((params.get('devices') ?? '').split(',').filter(Boolean)))
+  const bookKey = useIdempotencyKey()
   const [mode, setMode] = useState<'dropoff' | 'pickup'>(params.get('mode') === 'pickup' ? 'pickup' : 'dropoff')
   const [address, setAddress] = useState('')
   const [pincode, setPincode] = useState('')
@@ -41,8 +42,10 @@ function BookForm() {
       api<Booking>('/me/bookings', {
         method: 'POST',
         json: { pointId: point?.id, date, deviceIds: [...selected], mode, pickup: mode === 'pickup' ? { address, pincode, phone } : undefined },
+        idempotencyKey: bookKey.key,
       }),
     onSuccess: (booking) => {
+      bookKey.renew()
       client.invalidateQueries()
       navigate(`/bookings/${booking.id}`)
     },
@@ -126,6 +129,11 @@ function BookForm() {
                     </span>
                     <span className="mt-0.5 block text-xs text-ink-3">{p.address}</span>
                     <span className="block text-xs text-ink-3">{p.hours}</span>
+                    <span className="mt-1 block text-xs text-ink-2">
+                      Confirmed on {formatDate(p.confirmedAt)} to accept: {p.accepts.kinds.map((k) => kindLabels[k]).join(', ')}.{' '}
+                      {p.accepts.damagedBatteries ? 'Takes damaged batteries.' : 'Does not take swollen or damaged batteries.'}
+                    </span>
+                    {p.demo && <span className="mt-1 inline-block border border-ember-400 px-1.5 font-mono text-[10px] uppercase text-ember-700">Demo point · not counted in public impact</span>}
                   </span>
                 </label>
               ))}
@@ -151,10 +159,13 @@ function BookForm() {
               <div className="mt-3 space-y-1.5">
                 {ready.map((d) => {
                   const on = selected.has(d.id)
+                  const hazard = d.recommendation.route === 'battery-hazard'
                   return (
                     <button
                       key={d.id}
                       type="button"
+                      disabled={hazard && !point?.accepts.damagedBatteries}
+                      title={hazard ? 'Swollen or damaged battery: needs special handling' : undefined}
                       onClick={() => {
                         const next = new Set(selected)
                         if (on) next.delete(d.id)
@@ -166,7 +177,10 @@ function BookForm() {
                       <span className={`flex size-5 items-center justify-center border ${on ? 'border-sky-500 bg-sky-500 text-white' : 'border-line-2'}`}>
                         {on && <Check className="size-3.5" strokeWidth={3} />}
                       </span>
-                      <span className="flex-1 text-sm">{d.label}</span>
+                      <span className="flex-1 text-sm">
+                        {d.label}
+                        {hazard && <span className="ml-2 text-xs text-ember-700">battery hazard: not accepted here</span>}
+                      </span>
                       <span className="text-xs text-ink-3">{kindLabels[d.kind]}</span>
                     </button>
                   )

@@ -1,5 +1,6 @@
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
+import { bookingLabels, stageLabels } from '../lib/status'
 
 export function PageHeader({ eyebrow, title, intro, children }: { eyebrow: string; title: string; intro?: ReactNode; children?: ReactNode }) {
   return (
@@ -42,27 +43,26 @@ export function Notice({ tone = 'sky', children }: { tone?: 'sky' | 'gold'; chil
 
 const statusStyles: Record<string, string> = {
   added: 'border-gold-300 bg-gold-50 text-gold-700',
+  wiping: 'border-gold-400 bg-gold-100 text-gold-700',
   ready: 'border-sky-300 bg-sky-50 text-sky-700',
   booked: 'border-sky-500 bg-sky-500 text-white',
   accepted: 'border-gold-400 bg-gold-100 text-gold-700',
   collected: 'border-gold-500 bg-gold-400 text-ink',
+  received: 'border-emerald-600 bg-emerald-50 text-emerald-700',
+  dispatched: 'border-emerald-600 bg-emerald-100 text-emerald-800',
+  processed: 'border-emerald-700 bg-emerald-700 text-white',
   pending: 'border-gold-300 bg-gold-50 text-gold-700',
   approved: 'border-emerald-600 bg-emerald-50 text-emerald-700',
-  recycled: 'border-emerald-600 bg-emerald-600 text-white',
-  received: 'border-emerald-600 bg-emerald-600 text-white',
+  rejected: 'border-line-2 bg-paper text-ink-3',
   cancelled: 'border-line-2 bg-paper text-ink-3',
 }
 const statusText: Record<string, string> = {
-  added: 'Needs wipe',
-  ready: 'Ready to drop',
-  booked: 'Booked',
-  accepted: 'Pickup accepted',
-  collected: 'Collected',
+  ...stageLabels,
+  ...bookingLabels,
+  booked: 'Handover booked',
   pending: 'Under review',
   approved: 'Approved',
-  recycled: 'Recycled',
-  received: 'Received',
-  cancelled: 'Cancelled',
+  rejected: 'Not approved',
 }
 
 export function StatusBadge({ status }: { status: string }) {

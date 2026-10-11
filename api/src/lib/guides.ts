@@ -3,9 +3,22 @@ import guideData from '../../../data/guides.json'
 export type Step = { id: string; text: string; detail?: string; critical?: boolean }
 export type Source = { title: string; publisher: string; url: string; updated?: string }
 export type Section = { id: string; title: string; steps: Step[]; sources: Source[] }
-export type Guide = { id: string; title: string; appliesTo: string[]; minutes: number; sections: Section[] }
+export type Guide = { id: string; title: string; appliesTo: string[]; minutes: number; sections: Section[]; version?: string; reviewedAt?: string }
 
-export const guides = (guideData as { guides: Guide[] }).guides
+type GuideData = { guides: Guide[]; batterySafety: { steps: Step[]; sources: Source[] } }
+
+const data = guideData as GuideData
+
+// Battery safety lives beside the guides in the data file; the helper and search treat it as one more guide.
+export const batteryGuide: Guide = {
+  id: 'battery-safety',
+  title: 'Swollen, hot or damaged lithium batteries',
+  appliesTo: ['phone', 'tablet', 'laptop', 'battery'],
+  minutes: 5,
+  sections: [{ id: 'battery', title: 'Handle a swollen or damaged battery safely', steps: data.batterySafety.steps, sources: data.batterySafety.sources }],
+}
+
+export const guides = [...data.guides, batteryGuide]
 
 export function findGuide(id: string | null | undefined) {
   return guides.find((g) => g.id === id)

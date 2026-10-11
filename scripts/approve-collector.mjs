@@ -1,4 +1,5 @@
 // Approves a pickup partner after a phone verification call: node scripts/approve-collector.mjs <email>
+import './aws-guard.mjs'
 import { AdminGetUserCommand, CognitoIdentityProviderClient } from '@aws-sdk/client-cognito-identity-provider'
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'

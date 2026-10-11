@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch --env-file=.env src/local.ts",
-    "build": "esbuild src/lambda.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/index.mjs --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\"",
+    "build": "esbuild src/lambda.ts src/retention.ts --bundle --platform=node --target=node22 --format=esm --outdir=dist --out-extension:.js=.mjs --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\"",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test test/*.test.ts"
   },
@@ -15,7 +15,9 @@
     "@aws-sdk/client-geo-places": "^3.1149.0",
     "@aws-sdk/client-rekognition": "^3.1149.0",
     "@aws-sdk/client-s3": "^3.1149.0",
+    "@aws-sdk/client-ssm": "^3.1149.0",
     "@aws-sdk/lib-dynamodb": "^3.1149.0",
+    "@aws-sdk/s3-presigned-post": "^3.1149.0",
     "@aws-sdk/s3-request-presigner": "^3.1149.0",
     "@hono/node-server": "^2.1.4",
     "aws-jwt-verify": "^5.2.1",

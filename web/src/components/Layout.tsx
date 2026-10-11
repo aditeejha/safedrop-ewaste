@@ -43,14 +43,19 @@ function Account({ onNavigate }: { onNavigate?: () => void }) {
       </div>
     )
   }
-  const partner = session.data.groups.includes('partner')
+  const groups = session.data.groups
+  const roleLinks = [
+    { group: 'partner', to: '/partner', label: 'Partner' },
+    { group: 'processor', to: '/processor', label: 'Facility' },
+    { group: 'admin', to: '/admin', label: 'Admin' },
+  ].filter((r) => groups.includes(r.group))
   return (
-    <div className="flex items-center gap-2">
-      {partner && (
-        <Link to="/partner" onClick={onNavigate} className="btn-ghost">
-          Partner portal
+    <div className="flex flex-wrap items-center gap-2">
+      {roleLinks.map((r) => (
+        <Link key={r.to} to={r.to} onClick={onNavigate} className="btn-ghost px-3">
+          {r.label}
         </Link>
-      )}
+      ))}
       <Link to="/drawer" onClick={onNavigate} className="btn-primary">
         My drawer
       </Link>

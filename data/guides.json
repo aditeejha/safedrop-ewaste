@@ -256,7 +256,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.e600ea5a",
+   "reviewedAt": "2026-10-11"
   },
   {
    "id": "samsung",
@@ -514,7 +516,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.58ccfaa5",
+   "reviewedAt": "2026-10-11"
   },
   {
    "id": "iphone",
@@ -686,7 +690,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.ebaae70b",
+   "reviewedAt": "2026-10-11"
   },
   {
    "id": "windows",
@@ -818,7 +824,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.2c2049fa",
+   "reviewedAt": "2026-10-11"
   },
   {
    "id": "mac",
@@ -958,7 +966,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.44005f24",
+   "reviewedAt": "2026-10-11"
   },
   {
    "id": "chromebook",
@@ -1049,7 +1059,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.725c4abc",
+   "reviewedAt": "2026-10-11"
   },
   {
    "id": "feature-phone",
@@ -1138,7 +1150,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.85f2c75c",
+   "reviewedAt": "2026-10-11"
   },
   {
    "id": "storage",
@@ -1275,7 +1289,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.d96ab1d3",
+   "reviewedAt": "2026-10-11"
   },
   {
    "id": "india-phone-extras",
@@ -1404,7 +1420,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.620ec20d",
+   "reviewedAt": "2026-10-11"
   },
   {
    "id": "tv-router-printer",
@@ -1488,7 +1506,9 @@
       }
      ]
     }
-   ]
+   ],
+   "version": "2026-10-11.d0d66626",
+   "reviewedAt": "2026-10-11"
   }
  ],
  "batterySafety": {

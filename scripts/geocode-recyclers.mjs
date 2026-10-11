@@ -1,5 +1,6 @@
 // Geocodes the CPCB recycler/refurbisher lists with Amazon Location Service (Places v2).
 // Results are stored, so every call uses IntendedUse=Storage as the service terms require.
+import './aws-guard.mjs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { GeoPlacesClient, GeocodeCommand } from '@aws-sdk/client-geo-places'
 

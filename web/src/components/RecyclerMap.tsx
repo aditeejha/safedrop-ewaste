@@ -3,10 +3,10 @@ import maplibregl, { type GeoJSONSource, type Map as MapLibre } from 'maplibre-g
 import { useEffect, useRef } from 'react'
 import { mapStyleUrl } from '../lib/config'
 import type { LatLng } from '../lib/geo'
-import type { Point, Recycler } from '../lib/types'
+import type { Point, Site } from '../lib/types'
 
 type Props = {
-  recyclers: Recycler[]
+  recyclers: Site[]
   points: Point[]
   origin: LatLng | null
   selectedId: string | null
@@ -15,7 +15,7 @@ type Props = {
 
 const india: [number, number] = [78.9, 22.5]
 
-function siteFeatures(recyclers: Recycler[]): FeatureCollection {
+function siteFeatures(recyclers: Site[]): FeatureCollection {
   return {
     type: 'FeatureCollection',
     features: recyclers
@@ -23,7 +23,7 @@ function siteFeatures(recyclers: Recycler[]): FeatureCollection {
       .map((r) => ({
         type: 'Feature' as const,
         geometry: { type: 'Point' as const, coordinates: [r.lng!, r.lat!] },
-        properties: { id: r.id, kind: r.type, name: r.name },
+        properties: { id: r.id, kind: r.type, name: r.name, approximate: r.location?.approximate ?? true },
       })),
   }
 }
@@ -88,8 +88,9 @@ export function RecyclerMap({ recyclers, points, origin, selectedId, onSelect }:
         paint: {
           'circle-color': ['match', ['get', 'kind'], 'refurbisher', '#f7b500', '#0e9be0'],
           'circle-radius': 6.5,
+          'circle-opacity': ['case', ['get', 'approximate'], 0.45, 1],
           'circle-stroke-width': 2,
-          'circle-stroke-color': '#ffffff',
+          'circle-stroke-color': ['case', ['get', 'approximate'], ['match', ['get', 'kind'], 'refurbisher', '#f7b500', '#0e9be0'], '#ffffff'],
         },
       })
       instance.addLayer({

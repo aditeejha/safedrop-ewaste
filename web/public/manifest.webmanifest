@@ -1,0 +1,10 @@
+{
+  "name": "SafeDrop eWaste",
+  "short_name": "SafeDrop",
+  "description": "Wipe old devices properly and hand them to registered recyclers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FCFBF7",
+  "theme_color": "#FCFBF7",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

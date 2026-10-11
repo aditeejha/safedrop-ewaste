@@ -6,8 +6,8 @@ import {
   BatteryWarning,
   CalendarCheck,
   Camera,
+  Leaf,
   ListChecks,
-  LocateFixed,
   Lock,
   Map,
   MessageCircleQuestion,
@@ -65,27 +65,27 @@ const steps = [
     border: 'hover:border-sky-300',
     dot: 'bg-sky-300',
     numberColor: 'text-sky-200',
-    text: 'The recycler weighs and confirms. You get a certificate anyone can verify, with kg diverted, CO₂e avoided and energy saved.',
-    tags: ['Verify link', 'Energy saved', 'EPA WARM'],
+    text: 'The drop point weighs and confirms with a single-use code. Each later step, up to processor confirmation, is added to a hash-linked trail anyone can verify.',
+    tags: ['Signed QR', 'Hash-linked trail', 'Estimated kWh'],
   },
 ]
 
 const features = [
-  { icon: Camera, title: 'AI device scan', text: 'Photo in, device type, brand and wipe guide out.' },
-  { icon: BatteryWarning, title: 'Swollen battery check', text: 'Flags risky batteries and shows how to carry them safely.' },
-  { icon: ListChecks, title: '10 official wipe guides', text: '104 steps, each linked to the maker’s own help page.' },
-  { icon: Smartphone, title: 'India privacy steps', text: 'UPI apps, WhatsApp backup, eSIM, Find My Device.' },
-  { icon: Lock, title: 'Lock-out alerts', text: 'Critical steps like Google FRP and Activation Lock can’t be skipped.' },
-  { icon: MessageCircleQuestion, title: 'Ask SafeDrop', text: 'AI answers in English or Hindi, only from official steps, with sources.' },
-  { icon: Map, title: 'Registered recycler map', text: 'Every CPCB-registered recycler and refurbisher, on Amazon Location maps.' },
-  { icon: LocateFixed, title: 'Nearest first', text: 'Sort by distance from your GPS or pincode.' },
-  { icon: BadgeCheck, title: 'Is it registered?', text: 'Check any recycler’s name against the CPCB list before you hand over.' },
-  { icon: RefreshCw, title: 'Reuse first', text: 'Working devices can go to registered refurbishers instead.' },
-  { icon: CalendarCheck, title: 'Drop-off or doorstep pickup', text: 'Carry devices to a drop point, or have a verified kabadiwala partner collect them.' },
-  { icon: QrCode, title: 'QR handover code', text: 'One 6-character code links your wiped devices to the drop-off.' },
-  { icon: ScanLine, title: 'Partner portals', text: 'Drop-point staff weigh and confirm; kabadiwala partners accept and log pickups.' },
-  { icon: Award, title: 'Verifiable certificate', text: 'A public link proves the devices reached a registered recycler.' },
-  { icon: Zap, title: 'Waste to energy saved', text: 'Kg diverted, CO₂e avoided and kWh saved versus mining new metals, from US EPA WARM v16.' },
+  { icon: Camera, title: 'AI device scan', text: 'A photo suggests the device type, brand and wipe guide. You confirm it; it’s never treated as a diagnosis.' },
+  { icon: RefreshCw, title: 'Reuse-first advice', text: 'Five questions about its condition decide reuse, recycle or “not enough information”.' },
+  { icon: BatteryWarning, title: 'Battery hazard stop', text: 'A swollen or leaking battery halts the normal drop-off and shows safe-handling steps.' },
+  { icon: ListChecks, title: '10 versioned wipe guides', text: '104 steps from the makers’ own help pages, each guide with a version and review date.' },
+  { icon: Lock, title: 'Signed wipe record', text: 'Critical steps can’t be skipped. You sign a self-attestation that names the guide version.' },
+  { icon: Smartphone, title: 'India privacy steps', text: 'UPI apps, WhatsApp backup, eSIM and Find My Device, before anything leaves home.' },
+  { icon: MessageCircleQuestion, title: 'Ask SafeDrop', text: 'Cited answers in English or Hindi, with buttons for the next safe step.' },
+  { icon: Map, title: 'Cleaned recycler map', text: '557 CPCB-listed sites with source, check date and how precisely each pin is placed.' },
+  { icon: BadgeCheck, title: 'Is it registered?', text: 'Name checks show match confidence and say plainly what a match does not prove.' },
+  { icon: CalendarCheck, title: 'Drop-off or doorstep pickup', text: 'Book a partner point, or a verified kabadiwala who collects with your code.' },
+  { icon: QrCode, title: 'Single-use signed QR', text: 'Codes expire and work once; forged, replayed or double-scanned codes are refused.' },
+  { icon: ScanLine, title: 'Partner portal', text: 'Weigh in kg, correct with an audited reason, and dispatch to a registered recycler.' },
+  { icon: Leaf, title: 'Processor confirmation', text: 'Only the receiving facility, with its own evidence reference, can mark items processed.' },
+  { icon: Award, title: 'Hash-linked receipt', text: 'Every step is a chained event your browser can re-verify; the receipt says what it proves.' },
+  { icon: Zap, title: 'Evidence-based impact', text: 'Collected, weighed and processed counted separately; CO₂e and kWh labelled estimates.' },
 ]
 
 function factById(facts: Fact[] | undefined, id: string) {
@@ -97,14 +97,15 @@ function LiveStats() {
   const s = stats.data
   return (
     <div className="grid grid-cols-2 gap-6 md:grid-cols-5">
-      <Stat value={s ? s.devicesWiped.toLocaleString('en-IN') : '…'} label="Devices wiped" hint="Live · SafeDrop" />
-      <Stat value={s ? s.devicesRecycled.toLocaleString('en-IN') : '…'} label="Devices recycled" hint="Live · SafeDrop" />
-      <Stat value={s ? formatKg(s.kgRecycled) : '…'} label="Kept out of landfill" hint="Weighed by recyclers" />
-      <Stat value={s ? `${s.co2eKgAvoided.toLocaleString('en-IN', { maximumFractionDigits: 1 })} kg` : '…'} label="CO₂e avoided" hint="US EPA WARM v16" />
-      <Stat value={s ? formatKwh(s.energyKwhSaved) : '…'} label="Energy saved" hint={s ? `= ${ledHours(s.energyKwhSaved).toLocaleString('en-IN')} h of a 9 W LED` : 'vs mining new metals'} />
-      {s && s.demo.devicesRecycled > 0 && (
+      <Stat value={s ? s.wipesAttested.toLocaleString('en-IN') : '…'} label="Wipes self-attested" hint="Owners, real accounts" />
+      <Stat value={s ? s.devicesCollected.toLocaleString('en-IN') : '…'} label="Devices handed over" hint="Measured at drop points" />
+      <Stat value={s ? formatKg(s.kgWeighed) : '…'} label="Weighed on a scale" hint="Measured" />
+      <Stat value={s ? `${s.devicesProcessed} · ${formatKg(s.kgProcessed)}` : '…'} label="Processor confirmed" hint="Facility evidence" />
+      <Stat value={s ? formatKwh(s.energyKwhEstimated) : '…'} label="Energy saved if recycled" hint={s ? `Estimate · ${s.co2eKgEstimated.toLocaleString('en-IN', { maximumFractionDigits: 1 })} kg CO₂e` : 'Estimate'} />
+      {s && s.devicesCollected === 0 && <p className="col-span-full text-xs text-ink-3">No real handovers yet, so these start at zero. Nothing here is projected.</p>}
+      {s && s.demo.devicesCollected > 0 && (
         <p className="col-span-full text-xs text-ink-3">
-          Not counted above: {s.demo.devicesRecycled} demo handover{s.demo.devicesRecycled === 1 ? '' : 's'} made with the judges’ test account at the demo drop point.
+          Not counted above: {s.demo.devicesCollected} demo handover{s.demo.devicesCollected === 1 ? '' : 's'} made with the judges’ test account at the demo drop point.
         </p>
       )}
     </div>
@@ -179,7 +180,7 @@ export default function Home() {
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
           <div>
             <p className="text-3xl font-semibold tracking-tight">{generated ? `${(Number(generated.value) / 1e6).toFixed(2)} million t` : '1.40 million t'}</p>
-            <p className="mt-2 text-sm text-ink-2">E-waste India generated in FY 2024-25, as estimated by CPCB.</p>
+            <p className="mt-2 text-sm text-ink-2">E-waste India generated in FY 2024-25: a CPCB estimate from producers’ sales data and average device life.</p>
             {generated && <SourceLink href={generated.url}>PIB, 11 Aug 2025</SourceLink>}
           </div>
           <div>
@@ -189,7 +190,10 @@ export default function Home() {
           </div>
           <div>
             <p className="text-3xl font-semibold tracking-tight">{yougov ? `${yougov.value}%` : '26%'}</p>
-            <p className="mt-2 text-sm text-ink-2">Of people keeping old phones worry about others accessing their data; 19% don’t know how to wipe it (UK survey).</p>
+            <p className="mt-2 text-sm text-ink-2">
+              <span className="font-medium text-ink">UK survey:</span> of people keeping old phones, 26% worry about others accessing their data and 19% don’t know how to wipe it. No
+              Indian equivalent was found.
+            </p>
             {yougov && <SourceLink href={yougov.url}>YouGov, May 2024</SourceLink>}
           </div>
         </div>
@@ -296,7 +300,7 @@ export default function Home() {
           <div className="mb-8 flex items-end justify-between gap-4">
             <div>
               <p className="eyebrow">04 / Live impact</p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight">Counted from real handovers, not estimates</h2>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight">Counted only from recorded handovers</h2>
             </div>
             <Link to="/impact" className="link hidden text-sm sm:block">
               How we count

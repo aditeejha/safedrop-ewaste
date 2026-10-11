@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import type { DeviceKind, Fact, GuideData, Recycler } from './types'
+import type { DeviceKind, Fact, GuideData, SiteData } from './types'
 
 async function json<T>(path: string) {
   const res = await fetch(path)
@@ -13,18 +13,8 @@ export function useGuides() {
   return useQuery({ queryKey: ['guides'], queryFn: () => json<GuideData>('/data/guides.json'), ...forever })
 }
 
-export function useRecyclers() {
-  return useQuery({
-    queryKey: ['recyclers'],
-    queryFn: async () => {
-      const [recyclers, refurbishers] = await Promise.all([
-        json<Recycler[]>('/data/recyclers.json'),
-        json<Recycler[]>('/data/refurbishers.json'),
-      ])
-      return [...recyclers, ...refurbishers].filter((r) => !r.disabled)
-    },
-    ...forever,
-  })
+export function useSites() {
+  return useQuery({ queryKey: ['sites'], queryFn: () => json<SiteData>('/data/sites.json'), ...forever })
 }
 
 export function useFacts() {

@@ -1,8 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
-import { ExternalLink, Loader2, Send, Sparkles } from 'lucide-react'
+import { BatteryWarning, BookOpen, ExternalLink, Loader2, MapPin, Send, Sparkles, Truck } from 'lucide-react'
+import { Link } from 'react-router'
 import { useState } from 'react'
 import { api, errorText } from '../lib/api'
-import type { Answer } from '../lib/types'
+import type { Answer, HelperAction } from '../lib/types'
 import { ErrorNote } from './ui'
 
 const engineLabel = { bedrock: 'Amazon Bedrock', gemini: 'Gemini', search: 'Guide search' }
@@ -15,6 +16,36 @@ function Formatted({ text }: { text: string }) {
       )}
     </>
   )
+}
+
+function ActionLink({ action }: { action: HelperAction }) {
+  const common = 'inline-flex items-center gap-1.5 border border-line-2 bg-white px-2.5 py-1.5 text-xs text-ink hover:border-ink'
+  switch (action.type) {
+    case 'open-guide':
+      return (
+        <Link to={`/wipe/${action.guideId}`} className={common}>
+          <BookOpen className="size-3.5" aria-hidden="true" /> Open: {action.title}
+        </Link>
+      )
+    case 'find-recyclers':
+      return (
+        <Link to="/recyclers" className={common}>
+          <MapPin className="size-3.5" aria-hidden="true" /> Show registered recyclers
+        </Link>
+      )
+    case 'prepare-pickup':
+      return (
+        <Link to="/book?mode=pickup" className={common}>
+          <Truck className="size-3.5" aria-hidden="true" /> Prepare a pickup request
+        </Link>
+      )
+    case 'battery-safety':
+      return (
+        <Link to="/safety/battery" className={common}>
+          <BatteryWarning className="size-3.5" aria-hidden="true" /> Battery safety steps
+        </Link>
+      )
+  }
 }
 
 export function AskBox({ guideId, suggestions = [] }: { guideId?: string; suggestions?: string[] }) {
@@ -84,7 +115,16 @@ export function AskBox({ guideId, suggestions = [] }: { guideId?: string; sugges
               ))}
             </ul>
           )}
-          <p className="mt-3 font-mono text-[10px] uppercase tracking-wider text-ink-3">Answered by {engineLabel[ask.data.engine]}</p>
+          {ask.data.actions.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {ask.data.actions.map((a, i) => (
+                <ActionLink key={i} action={a} />
+              ))}
+            </div>
+          )}
+          <p className="mt-3 font-mono text-[10px] uppercase tracking-wider text-ink-3">
+            Answered by {engineLabel[ask.data.engine]} · buttons only open pages; nothing changes until you confirm there
+          </p>
         </div>
       )}
     </div>

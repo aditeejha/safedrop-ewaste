@@ -119,7 +119,7 @@ export async function identifyDevice(bytes: Uint8Array, mimeType: string): Promi
       failures.push(`bedrock: ${(err as Error).message}`)
     }
   }
-  if (geminiReady()) {
+  if (await geminiReady()) {
     try {
       const text = await geminiGenerate(
         [{ inline_data: { mime_type: mimeType, data: Buffer.from(bytes).toString('base64') } }, { text: prompt }],

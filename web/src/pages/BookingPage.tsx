@@ -27,7 +27,7 @@ function BookingView() {
   if (!booking.data) return <Page><ErrorNote>{errorText(booking.error)}</ErrorNote></Page>
   const b = booking.data
   const point = points.data?.find((p) => p.id === b.pointId)
-  const partnerUrl = `${location.origin}/partner?code=${b.code}`
+  const partnerUrl = b.qr ? `${location.origin}/partner?qr=${encodeURIComponent(b.qr)}` : `${location.origin}/partner?code=${b.code}`
 
   return (
     <Page narrow>
@@ -54,6 +54,9 @@ function BookingView() {
           <div className="text-center sm:text-left">
             <p className="text-sm text-ink-2">{b.mode === 'pickup' ? 'Show this to your pickup partner' : 'Show this at the counter'}</p>
             <p className="mt-1 font-mono text-5xl font-semibold tracking-[0.18em] text-ink">{b.code}</p>
+            <p className="mt-1 text-xs text-ink-3">
+              Works once · valid until {formatDate(b.expiresAt)} {new Date(b.expiresAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}. The QR carries a signed token, so it can’t be forged.
+            </p>
             <p className="mt-3 text-sm text-ink-2">
               {b.mode === 'pickup'
                 ? 'The partner types this code when they collect. The drop point checks it again before issuing your certificate.'

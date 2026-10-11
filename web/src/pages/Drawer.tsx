@@ -20,7 +20,7 @@ function DrawerView({ session }: { session: Session }) {
     (t, c) => ({ devices: t.devices + c.totals.devices, kg: t.kg + c.totals.kg, co2e: t.co2e + c.totals.co2eKg, kwh: t.kwh + (c.totals.energyKwh ?? 0) }),
     { devices: 0, kg: 0, co2e: 0, kwh: 0 },
   )
-  const upcoming = (bookings.data ?? []).filter((b) => ['booked', 'accepted', 'collected'].includes(b.status))
+  const upcoming = (bookings.data ?? []).filter((b) => ['booked', 'accepted', 'collected'].includes(b.status) && Date.now() <= Date.parse(b.expiresAt))
 
   return (
     <Page>
@@ -39,10 +39,10 @@ function DrawerView({ session }: { session: Session }) {
 
       {certs.length > 0 && (
         <div className="card mb-8 grid grid-cols-2 gap-6 p-6 md:grid-cols-4">
-          <Stat value={String(totals.devices)} label="Devices recycled" />
-          <Stat value={formatKg(totals.kg)} label="Kept out of landfill" />
-          <Stat value={`${totals.co2e.toLocaleString('en-IN', { maximumFractionDigits: 1 })} kg`} label="CO₂e avoided" />
-          <Stat value={formatKwh(totals.kwh)} label="Energy saved" hint="vs new metals" />
+          <Stat value={String(totals.devices)} label="Devices handed over" />
+          <Stat value={formatKg(totals.kg)} label="Weighed at drop points" hint="measured" />
+          <Stat value={`${totals.co2e.toLocaleString('en-IN', { maximumFractionDigits: 1 })} kg`} label="CO₂e avoided if recycled" hint="estimate" />
+          <Stat value={formatKwh(totals.kwh)} label="Energy saved if recycled" hint="estimate" />
         </div>
       )}
 
@@ -84,14 +84,15 @@ function DrawerView({ session }: { session: Session }) {
         ) : (
           <div className="card divide-y divide-line">
             {list.map((d) => {
-              const done = Object.keys(d.steps ?? {}).length
+              const done = Object.keys(d.wipe?.steps ?? {}).length
               return (
                 <Link key={d.id} to={`/drawer/${d.id}`} className="flex items-center gap-4 px-4 py-3.5 hover:bg-paper">
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[15px] font-medium">{d.label}</p>
                     <p className="text-xs text-ink-3">
                       {kindLabels[d.kind]}
-                      {d.status === 'added' && d.holdsData ? ` · ${done} steps done` : ''}
+                      {(d.status === 'added' || d.status === 'wiping') && d.holdsData ? ` · ${done} steps answered` : ''}
+                      {d.recommendation.route === 'battery-hazard' ? ' · battery hazard' : d.recommendation.route === 'reuse' ? ' · reuse first' : ''}
                     </p>
                   </div>
                   <StatusBadge status={d.status} />

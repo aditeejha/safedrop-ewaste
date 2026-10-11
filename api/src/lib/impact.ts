@@ -1,5 +1,9 @@
 import impactData from '../../../data/impact.json'
+import { TableName } from '../db.js'
+import type { Device } from '../types.js'
+import type { TransactItem } from './journey.js'
 import type { DeviceKind } from './kinds.js'
+import type { TrailEvent } from './trail.js'
 
 type WarmFactor = { recycling: number; landfilling: number }
 type ImpactData = {
@@ -10,7 +14,9 @@ type ImpactData = {
   phoneMetals: { gramsPerPhone: Record<string, number> }
 }
 
-const data = impactData as unknown as ImpactData
+const data = impactData as unknown as ImpactData & { version: { formula: string; factors: string } }
+
+export const impactVersion = { formula: data.version.formula, factors: data.version.factors }
 const shortTonKg = 907.18474
 const metalKinds = new Set<DeviceKind>(['phone', 'feature-phone'])
 
@@ -69,5 +75,34 @@ export function sumImpact(items: { kg: number; co2eKg: number; energyKwh: number
     co2eKg: round(items.reduce((t, i) => t + i.co2eKg, 0)),
     energyKwh: round(items.reduce((t, i) => t + i.energyKwh, 0)),
     metalsGrams: metals,
+  }
+}
+
+// One ledger row per weigh event. The conditional put means a replayed or retried event can never be counted twice.
+export function impactEntry(device: Device, event: TrailEvent, kg: number, status: 'weighed' | 'corrected' = 'weighed'): TransactItem {
+  const impact = itemImpact(device.kind, kg)
+  return {
+    Put: {
+      TableName,
+      Item: {
+        pk: `IMPACT#${device.id}`,
+        sk: `EV#${String(event.seq).padStart(5, '0')}`,
+        deviceId: device.id,
+        eventId: event.eventId,
+        kind: device.kind,
+        material: impact.material,
+        kg,
+        unit: 'kg',
+        measuredAt: event.at,
+        measuredBy: event.actorRole,
+        co2eKg: impact.co2eKg,
+        energyKwh: impact.energyKwh,
+        basis: 'measured weight × US EPA WARM v16 factor (estimate)',
+        version: impactVersion,
+        status,
+        demo: device.demo,
+      },
+      ConditionExpression: 'attribute_not_exists(pk)',
+    },
   }
 }

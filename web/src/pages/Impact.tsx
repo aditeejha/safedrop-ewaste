@@ -66,25 +66,46 @@ export default function Impact() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Impact"
+        eyebrow="Impact ledger"
         title="Waste turned back into energy and materials"
-        intro="Every number here comes from a real handover weighed at a SafeDrop point, multiplied by published US EPA factors. Nothing is projected."
+        intro="Totals are built only from handovers weighed at a SafeDrop point. Collected, weighed and processor-confirmed are kept apart, and every climate figure is labelled as an estimate."
       />
 
-      <div className="card grid grid-cols-2 gap-6 p-6 md:grid-cols-3 lg:grid-cols-6">
-        <Stat value={s ? String(s.devicesAdded) : '…'} label="Devices added" />
-        <Stat value={s ? String(s.devicesWiped) : '…'} label="Devices wiped" />
-        <Stat value={s ? String(s.devicesRecycled) : '…'} label="Devices recycled" />
-        <Stat value={s ? formatKg(s.kgRecycled) : '…'} label="Kept from landfill" />
-        <Stat value={s ? `${s.co2eKgAvoided.toLocaleString('en-IN', { maximumFractionDigits: 1 })} kg` : '…'} label="CO₂e avoided" />
-        <Stat value={s ? formatKwh(s.energyKwhSaved) : '…'} label="Energy saved" hint={s ? `${ledHours(s.energyKwhSaved).toLocaleString('en-IN')} LED-bulb hours` : undefined} />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="card p-5">
+          <p className="eyebrow">1 · Collected</p>
+          <div className="mt-3 grid grid-cols-2 gap-4">
+            <Stat value={s ? String(s.devicesCollected) : '…'} label="Devices received at drop points" hint="measured" />
+            <Stat value={s ? formatKg(s.kgWeighed) : '…'} label="Weighed on a scale" hint="measured" />
+          </div>
+        </div>
+        <div className="card p-5">
+          <p className="eyebrow">2 · Sent and processed</p>
+          <div className="mt-3 grid grid-cols-2 gap-4">
+            <Stat value={s ? String(s.devicesDispatched) : '…'} label="Sent for processing" hint="manifest recorded" />
+            <Stat value={s ? `${s.devicesProcessed} · ${formatKg(s.kgProcessed)}` : '…'} label="Processor confirmed" hint="facility evidence" />
+          </div>
+        </div>
+        <div className="card p-5">
+          <p className="eyebrow">3 · Estimated benefit</p>
+          <div className="mt-3 grid grid-cols-2 gap-4">
+            <Stat value={s ? `${s.co2eKgEstimated.toLocaleString('en-IN', { maximumFractionDigits: 1 })} kg` : '…'} label="CO₂e avoided if recycled" hint="estimate · EPA WARM" />
+            <Stat value={s ? formatKwh(s.energyKwhEstimated) : '…'} label="Energy saved if recycled" hint={s ? `estimate · ${ledHours(s.energyKwhEstimated).toLocaleString('en-IN')} LED h` : 'estimate'} />
+          </div>
+        </div>
       </div>
-      {s && (s.demo.devicesAdded > 0 || s.demo.devicesRecycled > 0) && (
-        <p className="mt-3 text-xs text-ink-3">
-          Demo activity is kept out of these totals: {s.demo.devicesAdded} devices added, {s.demo.devicesRecycled} recycled ({formatKg(s.demo.kgRecycled)}) with the
-          judges’ test account at the demo drop point.
+      {s && s.devicesCollected === 0 && (
+        <p className="mt-3 text-sm text-ink-2">No real handovers have been recorded yet, so every public total is zero. Nothing is projected or simulated.</p>
+      )}
+      {s && (s.demo.devicesAdded > 0 || s.demo.devicesCollected > 0) && (
+        <p className="mt-2 text-xs text-ink-3">
+          Kept out of these totals: demo activity by the judges’ test account ({s.demo.devicesAdded} devices added, {s.demo.devicesCollected} handed over,{' '}
+          {formatKg(s.demo.kgWeighed)} weighed, {s.demo.devicesProcessed} processor-confirmed at the demo facility).
         </p>
       )}
+      <p className="mt-2 text-xs text-ink-3">
+        A device counts once: each total is written in the same database transaction as the event it comes from, and every event can only happen once.
+      </p>
 
       <section className="mt-14 grid items-center gap-10 md:grid-cols-2">
         <Picture name="materials-macro" alt="Copper wire, gold-plated pins, circuit board and solder recovered from electronics" className="aspect-[3/2] w-full border border-line" />
@@ -135,6 +156,10 @@ export default function Impact() {
               0.034 g gold and 0.015 g palladium. These are recoverable amounts, not guaranteed yields.
             </p>
             <p>Loose batteries are not covered by WARM electronics factors, so they count towards weight only.</p>
+            <p>
+              <span className="font-medium text-ink">Limits.</span> WARM factors describe US recycling and landfill conditions and have not been validated for India or for each device type.
+              Treat the CO₂e and energy figures as indicative estimates, not verified savings.
+            </p>
           </div>
           {data && (
             <div className="card overflow-x-auto">

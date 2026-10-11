@@ -20,8 +20,9 @@ function JoinForm({ existing }: { existing?: Collector }) {
   const [phone, setPhone] = useState(existing?.phone ?? '')
   const [area, setArea] = useState(existing?.area ?? '')
   const [pincodes, setPincodes] = useState((existing?.requestedPincodes ?? existing?.pincodes ?? []).join(', '))
+  const [consent, setConsent] = useState(Boolean(existing?.consentAt))
   const join = useMutation({
-    mutationFn: () => api<Collector>('/me/collector', { method: 'POST', json: { name, phone, area, pincodes } }),
+    mutationFn: () => api<Collector>('/me/collector', { method: 'POST', json: { name, phone, area, pincodes, consent } }),
     onSuccess: () => client.invalidateQueries({ queryKey: ['collector'] }),
   })
   return (
@@ -33,6 +34,15 @@ function JoinForm({ existing }: { existing?: Collector }) {
       }}
     >
       <p className="text-lg font-semibold">Join as a pickup partner</p>
+      <div className="border border-sky-200 bg-sky-50 p-3 text-xs leading-relaxed text-sky-700">
+        <p className="font-semibold">What you need and what happens next</p>
+        <ul className="mt-1 list-disc space-y-0.5 pl-4">
+          <li>Your name, a mobile number and the pincodes you already collect from. Nothing else: no ID uploads, no bank details.</li>
+          <li>SafeDrop calls to verify you before any request is shown.</li>
+          <li>Only customers in your pincodes see your requests, and they see your name and number only after you accept their pickup.</li>
+          <li>Pickup partners are informal collectors, not registered recyclers. You deliver to a SafeDrop drop point, which records the weight.</li>
+        </ul>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label className="label" htmlFor="c-name">Name</label>
@@ -52,8 +62,12 @@ function JoinForm({ existing }: { existing?: Collector }) {
         <input id="c-pins" className="field" required placeholder="110085, 110086" value={pincodes} onChange={(e) => setPincodes(e.target.value)} />
         <p className="mt-1 text-xs text-ink-3">Up to 10 pincodes, separated by commas.</p>
       </div>
+      <label className="flex cursor-pointer gap-3 text-sm text-ink-2">
+        <input type="checkbox" className="mt-1 size-4 accent-sky-600" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+        <span>I agree that SafeDrop shares my name and mobile number with customers whose pickups I accept.</span>
+      </label>
       {join.isError && <ErrorNote>{errorText(join.error)}</ErrorNote>}
-      <button type="submit" className="btn-gold w-full py-3" disabled={join.isPending}>
+      <button type="submit" className="btn-gold w-full py-3" disabled={join.isPending || !consent}>
         {join.isPending && <Loader2 className="size-4 animate-spin" />} {existing ? 'Update details' : 'Send for verification'}
       </button>
     </form>

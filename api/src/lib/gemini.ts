@@ -1,18 +1,19 @@
 import { config } from '../config.js'
+import { geminiKey } from './secrets.js'
 
 type Part = { text: string } | { inline_data: { mime_type: string; data: string } }
 
 const cooldownMs = 5 * 60_000
 const coolingUntil = new Map<string, number>()
 
-export function geminiReady() {
-  return Boolean(config.geminiApiKey)
+export async function geminiReady() {
+  return Boolean(await geminiKey().catch(() => ''))
 }
 
 async function generate(model: string, parts: Part[], options: { json?: boolean; system?: string }) {
   const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json', 'x-goog-api-key': config.geminiApiKey },
+    headers: { 'content-type': 'application/json', 'x-goog-api-key': await geminiKey() },
     signal: AbortSignal.timeout(20_000),
     body: JSON.stringify({
       contents: [{ role: 'user', parts }],

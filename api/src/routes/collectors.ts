@@ -1,12 +1,16 @@
-import { UpdateCommand } from '@aws-sdk/lib-dynamodb'
+import { TransactWriteCommand } from '@aws-sdk/lib-dynamodb'
 import { Hono } from 'hono'
 import type { AppEnv } from '../auth.js'
 import { db, getItem, putItem, queryAll, strip, TableName } from '../db.js'
-import type { Booking, Collector } from '../types.js'
+import { idempotent } from '../lib/idempotency.js'
+import { cancellationReasons, moveDevice, type TransactItem } from '../lib/journey.js'
+import { actorRef } from '../lib/trail.js'
+import type { Booking, Collector, Device } from '../types.js'
 import { istToday, loadBooking } from './bookings.js'
+import { loadDevice } from './devices.js'
 
-// Kabadiwalas and other informal collectors join as pickup partners: they collect wiped devices
-// from homes and hand them over at a SafeDrop drop point, which issues the certificate.
+// Kabadiwalas and other informal collectors join as pickup partners. They are not registered recyclers:
+// they collect wiped devices from homes and hand them to a SafeDrop drop point, which issues the receipt.
 export const collectors = new Hono<AppEnv>()
 
 export async function loadCollector(id: string) {
@@ -33,7 +37,7 @@ collectors.get('/', async (c) => {
 
 collectors.post('/', async (c) => {
   const user = c.get('user')
-  const body = await c.req.json<{ name?: string; phone?: string; area?: string; pincodes?: string[] | string }>()
+  const body = await c.req.json<{ name?: string; phone?: string; area?: string; pincodes?: string[] | string; consent?: boolean }>()
   const name = (body.name ?? '').trim().slice(0, 60)
   const phone = (body.phone ?? '').replace(/\D/g, '').slice(-10)
   const area = (body.area ?? '').trim().slice(0, 80)
@@ -42,17 +46,20 @@ collectors.post('/', async (c) => {
   if (name.length < 2) return c.json({ error: 'Enter your name.' }, 400)
   if (!/^[6-9]\d{9}$/.test(phone)) return c.json({ error: 'Enter a 10-digit mobile number.' }, 400)
   if (!pincodes.length) return c.json({ error: 'Add at least one 6-digit pincode you collect from.' }, 400)
+  if (body.consent !== true) return c.json({ error: 'Please agree to share your name and number with customers whose pickups you accept.' }, 400)
   const existing = await loadCollector(user.id)
   const profile: Collector = {
     id: user.id,
     name,
     phone,
     area,
-    pincodes: existing?.status === 'approved' ? existing.pincodes : pincodes,
-    status: existing?.status ?? 'pending',
+    pincodes: existing?.status === 'approved' ? existing.pincodes : [],
+    requestedPincodes: pincodes,
+    status: existing?.status === 'approved' ? 'approved' : 'pending',
+    consentAt: new Date().toISOString(),
     createdAt: existing?.createdAt ?? new Date().toISOString(),
   }
-  await putItem({ pk: 'COLLECTOR', sk: user.id, ...profile, requestedPincodes: pincodes })
+  await putItem({ pk: 'COLLECTOR', sk: user.id, ...profile })
   return c.json(profile, existing ? 200 : 201)
 })
 
@@ -74,40 +81,42 @@ collectors.get('/requests', async (c) => {
       }),
     ),
   )
-  const open = lists.flat().filter((b) => b.status === 'booked')
+  const open = lists.flat().filter((b) => b.status === 'booked' && Date.now() <= Date.parse(b.expiresAt))
   open.sort((a, b) => a.date.localeCompare(b.date))
   return c.json(open.map(publicPickup))
 })
 
 collectors.get('/pickups', async (c) => {
-  const user = c.get('user')
   const items = await queryAll<Booking & Record<string, unknown>>({
     IndexName: 'gsi2',
     KeyConditionExpression: 'gsi2pk = :pk',
-    ExpressionAttributeValues: { ':pk': `COLLECTOR#${user.id}` },
+    ExpressionAttributeValues: { ':pk': `COLLECTOR#${c.get('user').id}` },
   })
   items.sort((a, b) => a.date.localeCompare(b.date))
   return c.json(
-    items.map((b) => ({
-      ...publicPickup(b),
-      userName: b.userName,
-      address: b.pickup?.address,
-      phone: b.pickup?.phone,
-      collectedAt: b.collectedAt,
-    })),
+    items.map((b) => ({ ...publicPickup(b), userName: b.userName, address: b.pickup?.address, phone: b.pickup?.phone, collectedAt: b.collectedAt })),
   )
 })
 
-collectors.post('/pickups/:id/accept', async (c) => {
-  const profile = await approvedCollector(c.get('user').id)
+async function deviceMoves(booking: Booking, to: 'booked' | 'collected', type: string, userId: string) {
+  const devices = await Promise.all(booking.devices.map((d) => loadDevice(booking.userId, d.id)))
+  return (devices.filter(Boolean) as Device[]).flatMap(
+    (d) => moveDevice(d, to, { type, actorRole: 'collector', actorRef: actorRef(userId), bookingId: booking.id }).items,
+  )
+}
+
+collectors.post('/pickups/:id/accept', idempotent, async (c) => {
+  const user = c.get('user')
+  const profile = await approvedCollector(user.id)
   if (!profile) return c.json({ error: 'Your pickup partner profile is waiting for approval.' }, 403)
   const booking = await loadBooking(c.req.param('id'))
   if (!booking || booking.mode !== 'pickup' || !booking.pickup || !profile.pincodes.includes(booking.pickup.pincode)) {
     return c.json({ error: 'Pickup not found in your area.' }, 404)
   }
-  try {
-    await db.send(
-      new UpdateCommand({
+  if (booking.status !== 'booked') return c.json({ error: 'Another partner already accepted this pickup.' }, 409)
+  const items: TransactItem[] = [
+    {
+      Update: {
         TableName,
         Key: { pk: `BOOKING#${booking.id}`, sk: 'META' },
         UpdateExpression:
@@ -123,16 +132,20 @@ collectors.post('/pickups/:id/accept', async (c) => {
           ':now': new Date().toISOString(),
           ':mine': `COLLECTOR#${profile.id}`,
         },
-      }),
-    )
+      },
+    },
+    ...(await deviceMoves(booking, 'booked', 'pickup.accepted', user.id)),
+  ]
+  try {
+    await db.send(new TransactWriteCommand({ TransactItems: items }))
   } catch (err) {
-    if ((err as Error).name === 'ConditionalCheckFailedException') return c.json({ error: 'Another partner already accepted this pickup.' }, 409)
+    if (cancellationReasons(err).includes('ConditionalCheckFailed')) return c.json({ error: 'Another partner already accepted this pickup.' }, 409)
     throw err
   }
   return c.json({ ok: true })
 })
 
-collectors.post('/pickups/:id/collect', async (c) => {
+collectors.post('/pickups/:id/collect', idempotent, async (c) => {
   const user = c.get('user')
   const { code } = await c.req.json<{ code?: string }>()
   const booking = await loadBooking(c.req.param('id'))
@@ -141,16 +154,20 @@ collectors.post('/pickups/:id/collect', async (c) => {
   if ((code ?? '').trim().toUpperCase() !== booking.code) {
     return c.json({ error: 'That code doesn’t match. Ask the customer to show the code on their booking page.' }, 400)
   }
-  await db.send(
-    new UpdateCommand({
-      TableName,
-      Key: { pk: `BOOKING#${booking.id}`, sk: 'META' },
-      UpdateExpression: 'SET #st = :collected, collectedAt = :now',
-      ConditionExpression: '#st = :accepted',
-      ExpressionAttributeNames: { '#st': 'status' },
-      ExpressionAttributeValues: { ':collected': 'collected', ':accepted': 'accepted', ':now': new Date().toISOString() },
-    }),
-  )
+  const items: TransactItem[] = [
+    {
+      Update: {
+        TableName,
+        Key: { pk: `BOOKING#${booking.id}`, sk: 'META' },
+        UpdateExpression: 'SET #st = :collected, collectedAt = :now',
+        ConditionExpression: '#st = :accepted',
+        ExpressionAttributeNames: { '#st': 'status' },
+        ExpressionAttributeValues: { ':collected': 'collected', ':accepted': 'accepted', ':now': new Date().toISOString() },
+      },
+    },
+    ...(await deviceMoves(booking, 'collected', 'pickup.collected', user.id)),
+  ]
+  await db.send(new TransactWriteCommand({ TransactItems: items }))
   return c.json({ ok: true })
 })
 
@@ -159,9 +176,6 @@ export const coverage = new Hono()
 coverage.get('/:pincode', async (c) => {
   const pincode = c.req.param('pincode')
   if (!/^[1-9]\d{5}$/.test(pincode)) return c.json({ error: 'Use a 6-digit pincode.' }, 400)
-  const items = await queryAll<{ sk: string }>({
-    KeyConditionExpression: 'pk = :pk',
-    ExpressionAttributeValues: { ':pk': `COVER#${pincode}` },
-  })
+  const items = await queryAll<{ sk: string }>({ KeyConditionExpression: 'pk = :pk', ExpressionAttributeValues: { ':pk': `COVER#${pincode}` } })
   return c.json({ pincode, partners: items.length })
 })

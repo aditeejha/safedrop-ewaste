@@ -38,6 +38,7 @@ test('every guide referenced by guideFor exists and has critical steps', () => {
     assert.ok(criticalStepIds(guide).length > 0, id)
   }
   assert.ok(guides.every((g) => g.sections.every((s) => s.sources.length > 0)))
+  assert.ok(findGuide('battery-safety')?.sections[0].steps.length, 'battery safety is part of the helper knowledge')
 })
 
 test('CO2e uses WARM landfilling minus recycling per short ton', () => {
